@@ -16,9 +16,14 @@ db.createCollection("users", {
           bsonType: "string",
           description: "Must be a string and is required"
         },
+        email: {
+          bsonType: "string",
+          description: "Must be a string and is required"
+        },
         favoritesRecipes: {
           bsonType: "array",
           description: "Must be an array",
+          uniqueItems: true,
           items: {
             bsonType: "object",
             required: ["title", "description"],
