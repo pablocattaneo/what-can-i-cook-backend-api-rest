@@ -31,4 +31,4 @@ db.createCollection("recipes", {
       }
     }
   }
-}
+})

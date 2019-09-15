@@ -1,2 +1,0 @@
-({"username": "pablocattaneo", "name": "Pablo", "lastName": "Cattaneo", "email": "pablocattaneo1@gmail.com"})
-({"username": "victoriaf", "name": "Victoria", "lastName": "Fernandez", "email": "vicky@gmail.com"})
