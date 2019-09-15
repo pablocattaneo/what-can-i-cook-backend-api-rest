@@ -2,7 +2,7 @@ db.createCollection("recipes", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["name", "price", "stock"],
+      required: ["name", "price", "stock", "amount", "measure"],
       properties: {
         name: {
           bsonType: "string",
@@ -15,6 +15,15 @@ db.createCollection("recipes", {
         stock: {
           bsonType: "int",
           description: "Must be an int and is required"
+        },
+        amount: {
+          bsonType: "decimal",
+          description: "Must be an decimal and is required"
+        },
+        measure: {
+          bsonType: "string",
+          description: "Must be an string and is required",
+          enum: ["gr", "kg", "lt", "ml"]
         },
         description: {
           bsonType: "string",
