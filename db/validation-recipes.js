@@ -2,7 +2,7 @@ db.createCollection("recipes", {
   validator: {
     $jsonSchema: {
       bsonType: "object",
-      required: ["title", "products", "serving"],
+      required: ["title", "ingredient", "serving"],
       properties: {
         title: {
           bsonType: "string",
@@ -26,7 +26,6 @@ db.createCollection("recipes", {
         ingredient: {
           bsonType: "array",
           description: "Must be an array and is required",
-          uniqueItems: true,
           items: {
             bsonType: "object",
             required: ["productId", "amount"],
@@ -43,24 +42,27 @@ db.createCollection("recipes", {
           }
         },
         comments: {
-          bsonType: "string",
-          description: "Must be a string"
+          bsonType: ["array","null"],
+          description: "Must be an array or null",
+          items: {
+            bsonType: "string"
+          }
         },
         serving: {
-          bsonType: "int",
-          description: "Must be a 32-bit integer"
+          bsonType: ["int","null"],
+          description: "Must be a 32-bit integer or null"
         },
         cookTime: {
-          bsonType: "int",
-          description: "Must be a 32-bit integer"
+          bsonType: ["int","null"],
+          description: "Must be a 32-bit integer or null"
         },
         readyIn: {
-          bsonType: "int",
-          description: "Must be a 32-bit integer"
+          bsonType: ["int","null"],
+          description: "Must be a 32-bit integer or null"
         },
         calories: {
-          bsonType: "int",
-          description: "Must be a 32-bit integer"
+          bsonType: ["int","null"],
+          description: "Must be a 32-bit integer or null"
         }
       }
     }
