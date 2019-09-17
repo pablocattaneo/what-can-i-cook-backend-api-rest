@@ -16,7 +16,7 @@ db.createCollection("recipes", {
           bsonType: "array",
           description: "Must be an array",
           items: {
-            bsonType: "string",
+            bsonType: "string"
           }
         },
         thumbnailImg: {
