@@ -1,0 +1,19 @@
+{
+  "name": "what-can-i-cook",
+  "version": "1.0.0",
+  "description": "What can I cook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pablocattaneo/what-can-i-cook.git"
+  },
+  "author": "Pablo Cattaneo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pablocattaneo/what-can-i-cook/issues"
+  },
+  "homepage": "https://github.com/pablocattaneo/what-can-i-cook#readme"
+}
