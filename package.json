@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/pablocattaneo/what-can-i-cook/issues"
   },
-  "homepage": "https://github.com/pablocattaneo/what-can-i-cook#readme"
+  "homepage": "https://github.com/pablocattaneo/what-can-i-cook#readme",
+  "dependencies": {
+    "mongodb": "^3.3.2"
+  }
 }
