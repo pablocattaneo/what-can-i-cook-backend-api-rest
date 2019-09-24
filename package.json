@@ -18,5 +18,8 @@
   "homepage": "https://github.com/pablocattaneo/what-can-i-cook#readme",
   "dependencies": {
     "mongodb": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
   }
 }
