@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/pablocattaneo/what-can-i-cook#readme",
   "dependencies": {
+    "express": "^4.17.1",
     "mongodb": "^3.3.2"
   },
   "devDependencies": {
