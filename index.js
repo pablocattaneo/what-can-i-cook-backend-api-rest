@@ -1,23 +1,35 @@
-const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
-// Connection URL
-const url = 'mongodb://localhost:27017';
+const express = require('express');
+const MongoClient = require('mongodb').MongoClient;
 
-// Database Name
-const dbName = 'myproject';
+const adminRoutes = require('./routes/admin');
+const adminshop = require('./routes/shop');
 
-// Create a new MongoClient
-const client = new MongoClient(url);
+const app = express();
 
-// Use connect method to connect to the Server
-client.connect(function(err) {
-  assert.equal(null, err);
-  console.log("Connected successfully to on mongo server");
+app.use(adminRoutes);
+app.use(adminshop);
 
-  const db = client.db(dbName);
+// // Connection URL
+// const url = 'mongodb://localhost:27017';
 
-  client.close();
-});
+// // Database Name
+// const dbName = 'myproject';
 
-console.log("index.js");
+// // Create a new MongoClient
+// const client = new MongoClient(url);
+
+// // Use connect method to connect to the Server
+// client.connect(function(err) {
+//   assert.equal(null, err);
+//   console.log("Connected successfully to on mongo server");
+
+//   const db = client.db(dbName);
+
+//   client.close();
+// });
+
+// console.log("index.js");
+
+app.listen(5000)
