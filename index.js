@@ -11,6 +11,10 @@ const app = express();
 app.use(adminRoutes);
 app.use(adminshop);
 
+app.use((req, res, next) => {
+  res.status(404).send('<h1>404!! Page not found</h1>');
+})
+
 // // Connection URL
 // const url = 'mongodb://localhost:27017';
 
