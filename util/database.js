@@ -1,5 +1,4 @@
 const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
 
 function mongoConnect(url, dbName) {
   MongoClient.connect(url)
