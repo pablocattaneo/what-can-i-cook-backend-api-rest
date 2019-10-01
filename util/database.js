@@ -1,21 +1,27 @@
 const MongoClient = require('mongodb').MongoClient;
 
-function mongoConnect(url, dbName) {
+let _db;
+
+function mongoConnect(url, dbName, callback) {
   MongoClient.connect(url)
   .then(client => {
     console.log("Connected successfully to on mongo server");
-    const db = client.db(dbName);
-    db.collection('products')
-      .find()
-      .toArray()
-      .then(r=>{
-        console.log("products", r);
-      });
+    _db = client.db(dbName);
+    callback();
   })
-  .catch(e => {
-    console.log("error", e);
+  .catch(error => {
+    console.log("error", error);
+    throw error
   });
+};
+
+function getDb() {
+  if (_db) {
+    return _db;
+  }
+  throw "No database found";
 }
 
-module.exports = mongoConnect;
+exports.mongoConnect = mongoConnect;
+exports.getDb = getDb;
 
