@@ -1,12 +1,12 @@
-const MongoClient = require('mongodb').MongoClient;
+const mongoClient = require('mongodb').MongoClient;
 
 let _db;
 
-function mongoConnect(url, dbName, callback) {
-  MongoClient.connect(url)
-  .then(client => {
+function mongoConnect(url, callback) {
+  mongoClient.connect(url)
+  .then(mongoClientIntance => {
     console.log("Connected successfully to on mongo server");
-    _db = client.db(dbName);
+    _db = mongoClientIntance;
     callback();
   })
   .catch(error => {
