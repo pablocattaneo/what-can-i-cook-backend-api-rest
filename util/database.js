@@ -2,8 +2,8 @@ const mongoClient = require('mongodb').MongoClient;
 
 let _db;
 
-function mongoConnect(url, callback) {
-  mongoClient.connect(url)
+function mongoConnect(uri, callback) {
+  mongoClient.connect(uri)
   .then(mongoClientIntance => {
     console.log("Connected successfully to on mongo server");
     _db = mongoClientIntance;
