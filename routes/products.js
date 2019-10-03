@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 
 const getDb = require('../util/database').getDb;
-const mongoConnect = require('../util/database').mongoConnect;
 
 function getProducts() {
   const db = getDb().db();
