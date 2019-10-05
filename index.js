@@ -1,9 +1,9 @@
 const express = require('express');
 
+const home = require('./routes/home');
 const adminRoutes = require('./routes/admin');
 const adminshop = require('./routes/shop');
 const adminsProducts = require('./routes/products');
-const home = require('./routes/home');
 const mongoConnect = require('./util/database').mongoConnect;
 
 const app = express();
