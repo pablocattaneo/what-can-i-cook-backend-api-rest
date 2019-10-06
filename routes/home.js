@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/',(req, res, next) => {
-  res.send('<h1>Welcome to the home!!</h1>');
-})
+const homeController = require('../controllers/home')
+
+router.get('/', homeController.getHome)
 
 module.exports = router;
