@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const home = require('./routes/home');
 const adminRoutes = require('./routes/admin');
@@ -7,6 +8,8 @@ const adminsProducts = require('./routes/products');
 const mongoConnect = require('./util/database').mongoConnect;
 
 const app = express();
+
+app.use(bodyParser.json())
 
 app.use(adminRoutes);
 app.use(adminshop);

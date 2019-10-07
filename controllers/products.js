@@ -16,5 +16,14 @@ exports.getProductById = (req, res, next) => {
 
 exports.getAllProducts = (req, res, next) => {
   getProducts();
-  res.send(`<h1>Hello products Home !!</h1>`);
+  res.status(200).json({greet: "Hello !!"})
+}
+
+exports.createProduct = (req, res) => {
+  const body = req.body
+  console.log("body", body);
+  res.status(201).json({
+    message: "Product was created successfully!",
+    data: body
+  })
 }
