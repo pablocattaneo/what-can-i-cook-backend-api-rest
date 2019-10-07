@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/shop',(req, res, next) => {
-  res.send('<h1>Hello shoppers!!</h1>');
-})
+const shopController = require('../controllers/shop')
+
+router.get('/shop', shopController.sayHello)
 
 module.exports = router;
