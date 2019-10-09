@@ -6,6 +6,7 @@ function getProducts() {
     .find()
     .toArray()
     .then((r) => {
+      // eslint-disable-next-line no-console
       console.log('products', r);
     });
 }
@@ -21,7 +22,6 @@ exports.getAllProducts = (req, res) => {
 
 exports.createProduct = (req, res) => {
   const { body } = req;
-  console.log('body', body);
   res.status(201).json({
     message: 'Product was created successfully!',
     data: body,
