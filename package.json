@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
     "lint": "eslint ./",
-    "lintFix": "eslint ./ --fix"
+    "lintfix": "eslint ./ --fix"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,9 @@
   "devDependencies": {
     "eslint": "^6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
     "nodemon": "^1.19.2"
   }
 }
