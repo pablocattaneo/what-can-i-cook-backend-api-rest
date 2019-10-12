@@ -5,6 +5,7 @@ const home = require("./routes/home");
 const adminRoutes = require("./routes/admin");
 const adminshop = require("./routes/shop");
 const adminsProducts = require("./routes/products");
+const frontRecipes = require("./routes/recipes");
 const { mongoConnect } = require("./util/database");
 
 const app = express();
@@ -24,6 +25,7 @@ app.use((req, res, next) => {
 app.use(adminRoutes);
 app.use(adminshop);
 app.use(adminsProducts);
+app.use(frontRecipes);
 app.use(home);
 
 app.use((req, res) => {
