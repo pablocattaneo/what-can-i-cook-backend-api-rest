@@ -2,12 +2,16 @@ const { getDb } = require("../util/database");
 
 function getProducts() {
   const db = getDb().db();
-  db.collection("products")
+  return db
+    .collection("products")
     .find()
     .toArray()
-    .then(r => {
+    .then(response => {
+      return response;
+    })
+    .catch(error => {
       // eslint-disable-next-line no-console
-      console.log("products", r);
+      console.log("error", error);
     });
 }
 
@@ -16,8 +20,9 @@ exports.getProductById = (req, res) => {
 };
 
 exports.getAllProducts = (req, res) => {
-  getProducts();
-  res.status(200).json({ greet: "Hello !!" });
+  getProducts().then(response => {
+    res.status(200).json(response);
+  });
 };
 
 exports.createProduct = (req, res) => {
