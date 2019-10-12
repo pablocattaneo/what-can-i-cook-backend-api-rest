@@ -20,9 +20,14 @@ exports.getProductById = (req, res) => {
 };
 
 exports.getAllProducts = (req, res) => {
-  getProducts().then(response => {
-    res.status(200).json(response);
-  });
+  getProducts()
+    .then(response => {
+      return res.status(200).json(response);
+    })
+    .catch(error => {
+      // eslint-disable-next-line no-console
+      console.log("error", error);
+    });
 };
 
 exports.createProduct = (req, res) => {

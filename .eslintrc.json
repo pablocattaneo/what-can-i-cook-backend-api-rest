@@ -6,7 +6,8 @@
     },
     "extends": [
         "airbnb-base",
-        "prettier"
+        "prettier",
+        "plugin:promise/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -15,7 +16,10 @@
     "parserOptions": {
         "ecmaVersion": 2018
     },
-    "plugins": ["prettier"],
+    "plugins": [
+        "prettier",
+        "eslint-plugin-promise"
+    ],
     "rules": {
       "prettier/prettier": "error"
     }

@@ -9,7 +9,9 @@ function mongoConnect(uri, callback) {
       // eslint-disable-next-line no-console
       console.log("Connected successfully to on mongo server");
       db = mongoClientIntance;
+      // eslint-disable-next-line promise/no-callback-in-promise
       callback();
+      return db;
     })
     .catch(error => {
       // eslint-disable-next-line no-console
