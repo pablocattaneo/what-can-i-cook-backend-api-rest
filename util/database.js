@@ -11,7 +11,7 @@ function mongoConnect(uri, callback) {
       db = mongoClientIntance;
       // eslint-disable-next-line promise/no-callback-in-promise
       callback();
-      return db;
+      return "promise fulfilled";
     })
     .catch(error => {
       // eslint-disable-next-line no-console
