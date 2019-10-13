@@ -4,7 +4,10 @@ let db;
 
 function mongoConnect(uri, callback) {
   mongoClient
-    .connect(uri)
+    .connect(
+      uri,
+      { useNewUrlParser: true, useUnifiedTopology: true }
+    )
     .then(mongoClientIntance => {
       // eslint-disable-next-line no-console
       console.log("Connected successfully to on mongo server");
