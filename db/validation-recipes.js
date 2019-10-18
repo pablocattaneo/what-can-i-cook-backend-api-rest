@@ -1,4 +1,5 @@
-db.createCollection('recipes', {
+db.runCommand({
+  collMod:'recipes',
   validator: {
     $jsonSchema: {
       bsonType: 'object',
@@ -48,22 +49,28 @@ db.createCollection('recipes', {
             bsonType: 'string',
           },
         },
-        serving: {
-          bsonType: ['int', 'null'],
-          description: 'Must be a 32-bit integer or null',
-        },
-        cookTime: {
-          bsonType: ['int', 'null'],
-          description: 'Must be a 32-bit integer or null',
-        },
-        readyIn: {
-          bsonType: ['int', 'null'],
-          description: 'Must be a 32-bit integer or null',
-        },
-        calories: {
-          bsonType: ['int', 'null'],
-          description: 'Must be a 32-bit integer or null',
-        },
+        more_info: {
+          bsonType: 'object',
+          description: 'Must be an object',
+          properties: {
+            serving: {
+              bsonType: 'int',
+              description: 'Must be a 32-bit integer',
+            },
+            cookTime: {
+              bsonType: 'int',
+              description: 'Must be a 32-bit integer',
+            },
+            readyIn: {
+              bsonType: 'int',
+              description: 'Must be a 32-bit integer',
+            },
+            calories: {
+              bsonType: 'int',
+              description: 'Must be a 32-bit integer',
+            }
+          }
+        }
       },
     },
   },

@@ -29,8 +29,10 @@
   description: 'El arroz con leche es un postre típico de la gastronomía de múltiples países hecho cociendo lentamente arroz con leche y azúcar. Se sirve frío o caliente. Se le suele espolvorear canela, vainilla o cáscara de limón para aromatizarlo',
   mainImg: ['https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Arroz_con_leche.png/245px-Arroz_con_leche.png'],
   thumbnailImg: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Arroz_con_leche.png/245px-Arroz_con_leche.png',
-  cookTime: NumberInt('60'),
   comments: null,
-  readyIn: null,
-  calories: null,
+  more_info: {
+    cookTime: NumberInt('60'),
+    serving: NumberInt('6'),
+    calories: NumberInt('111')
+  }
 }];
