@@ -19,13 +19,15 @@ exports.getRecipeById = (req, res) => {
   res.send(`<h1>Hello recipe ${req.params.productId} !!</h1>`);
 };
 
-exports.getAllRecipes = (req, res) => {
-  getRecipes()
-    .then(response => {
-      return res.status(200).json(response);
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-console
-      console.log("error", error);
-    });
-};
+async function getAllRecipes(req, res) {
+  try {
+    const response = await getRecipes();
+    return res.status(200).json(response);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log("error", error);
+    return false;
+  }
+}
+
+exports.getAllRecipes = getAllRecipes;
