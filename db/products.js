@@ -70,4 +70,16 @@
   mainImg: ['https://cdn11.bigcommerce.com/s-3stx4pub31/images/stencil/608x608/products/277/766/Colonial_400__90823.1556733293.jpg?c=2'],
   thumbnailImg: 'https://cdn11.bigcommerce.com/s-3stx4pub31/images/stencil/608x608/products/277/766/Colonial_400__90823.1556733293.jpg?c=2',
 },
+{
+  _id: ObjectId('5d7f5d8283780364cfd3ad94'),
+  name: 'Egg',
+  brand: null,
+  price: NumberDecimal('5.50'),
+  stock: NumberInt('500'),
+  amount: NumberDecimal('400'),
+  measure: 'unit',
+  description: null,
+  mainImg: ['https://upload.wikimedia.org/wikipedia/en/5/58/Instagram_egg.jpg'],
+  thumbnailImg: 'https://upload.wikimedia.org/wikipedia/en/5/58/Instagram_egg.jpg',
+},
 ];
