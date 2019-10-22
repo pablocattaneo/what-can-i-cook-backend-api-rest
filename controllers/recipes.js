@@ -1,6 +1,6 @@
 const { getDb } = require("../util/database");
 
-function getRecipesFromDB() {
+function getRecipesFromDb() {
   const db = getDb().db();
   return db
     .collection("recipes")
@@ -21,7 +21,7 @@ exports.getRecipeById = (req, res) => {
 
 async function getRecipes(req, res) {
   try {
-    const response = await getRecipesFromDB();
+    const response = await getRecipesFromDb();
     return res.status(200).json(response);
   } catch (error) {
     // eslint-disable-next-line no-console
