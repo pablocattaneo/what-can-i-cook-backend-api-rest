@@ -1,10 +1,10 @@
 const { getDb } = require("../util/database");
 
-function getRecipesFromDb() {
+function getRecipesFromDb(filter) {
   const db = getDb().db();
   return db
     .collection("recipes")
-    .find()
+    .find(filter)
     .toArray()
     .then(response => {
       return response;
@@ -21,7 +21,7 @@ exports.getRecipeById = (req, res) => {
 
 async function getRecipes(req, res) {
   try {
-    const response = await getRecipesFromDb();
+    const response = await getRecipesFromDb(req.query);
     return res.status(200).json(response);
   } catch (error) {
     // eslint-disable-next-line no-console

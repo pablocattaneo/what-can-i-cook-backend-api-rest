@@ -3,7 +3,7 @@ db.runCommand({
   validator: {
     $jsonSchema: {
       bsonType: 'object',
-      required: ['title', 'ingredient', 'serving'],
+      required: ['title', 'ingredient'],
       properties: {
         title: {
           bsonType: 'string',
@@ -70,6 +70,11 @@ db.runCommand({
               description: 'Must be a 32-bit integer',
             }
           }
+        },
+        language: {
+          bsonType: 'string',
+          enum: ["es", "en"],
+          description: 'Must be an string and accept only "es" or "en" as a value ',
         }
       },
     },

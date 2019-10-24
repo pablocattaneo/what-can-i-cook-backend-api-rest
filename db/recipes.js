@@ -1,6 +1,5 @@
 [{
     title: 'Arroz con leche',
-    serving: NumberInt('6'),
     ingredient: [{
         productId: ObjectId('5d7f5d8283780364cfd3ad8e'),
         amount: NumberDecimal('1'),
@@ -34,11 +33,11 @@
       cookTime: NumberInt('60'),
       serving: NumberInt('6'),
       calories: NumberInt('111')
-    }
+    },
+    language: 'es'
   },
   {
     title: 'Meat Loaf',
-    serving: NumberInt('6'),
     ingredient: [{
         productId: ObjectId('5d7f5d8283780364cfd3ad94'),
         amount: NumberDecimal('2'),
@@ -60,11 +59,11 @@
       cookTime: NumberInt('90'),
       serving: NumberInt('6'),
       calories: NumberInt('409')
-    }
+    },
+    language: 'en'
   },
   {
     title: 'Bubble and squeak with gammon and fried eggs',
-    serving: NumberInt('4'),
     ingredient: [{
         productId: ObjectId('5d7f5d8283780364cfd3ad94'),
         amount: NumberDecimal('4'),
@@ -78,6 +77,7 @@
       cookTime: NumberInt('20'),
       serving: NumberInt('4'),
       calories: NumberInt('388K')
-    }
+    },
+    language: 'en'
   }
 ];
