@@ -1,29 +1,13 @@
 [{
     title: 'Arroz con leche',
-    ingredient: [{
-        productId: ObjectId('5d7f5d8283780364cfd3ad8e'),
-        amount: NumberDecimal('1'),
-      },
-      {
-        productId: ObjectId('5d7f5d8283780364cfd3ad8f'),
-        amount: NumberDecimal('1'),
-      },
-      {
-        productId: ObjectId('5d7f5d8283780364cfd3ad90'),
-        amount: NumberDecimal('1'),
-      },
-      {
-        productId: ObjectId('5d7f5d8283780364cfd3ad91'),
-        amount: NumberDecimal('1'),
-      },
-      {
-        productId: ObjectId('5d7f5d8283780364cfd3ad92'),
-        amount: NumberDecimal('1'),
-      },
-      {
-        productId: ObjectId('5d7f5d8283780364cfd3ad93'),
-        amount: NumberDecimal('1'),
-      },
+    ingredient: [
+      "100g de arroz redondo",
+      "1l de leche entera",
+      "1 trozo de cáscara de limón y de naranja",
+      "1 rama de canela",
+      "canela en polvo",
+      "70g de azúcar",
+      "10g de mantequilla"
     ],
     description: 'El arroz con leche es un postre típico de la gastronomía de múltiples países hecho cociendo lentamente arroz con leche y azúcar. Se sirve frío o caliente. Se le suele espolvorear canela, vainilla o cáscara de limón para aromatizarlo',
     mainImg: ['https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Arroz_con_leche.png/245px-Arroz_con_leche.png'],
@@ -38,18 +22,17 @@
   },
   {
     title: 'Meat Loaf',
-    ingredient: [{
-        productId: ObjectId('5d7f5d8283780364cfd3ad94'),
-        amount: NumberDecimal('2'),
-      },
-      {
-        productId: ObjectId('5d7f5d8283780364cfd3ad91'),
-        amount: NumberDecimal('1'),
-      },
-      {
-        productId: ObjectId('5d7f5d8283780364cfd3ad90'),
-        amount: NumberDecimal('1'),
-      }
+    ingredient: [
+      "1 - 1 / 2 pounds Ground Beef(93 % lean or leaner)",
+      "3 / 4 cup Panko bread crumbs",
+      "3 / 4 cup ketchup, divided",
+      "1 / 2 cup minced onion",
+      "1 egg",
+      "1 tablespoon Worcestershire sauce",
+      "2 teaspoons minced garlic",
+      "1 teaspoon dried thyme leaves",
+      "3 / 4 teaspoon pepper",
+      "1 / 2 teaspoon salt",
     ],
     description: 'Meatloaf is a dish of ground meat that has been mixed with other ingredients and formed into the shape of a loaf, then baked or smoked. The final shape is either hand-formed on a flat pan or created by cooking it in a loaf pan.[1] It is usually made with ground beef, although ground lamb, pork, veal, venison, poultry and seafood are also used.',
     mainImg: ['https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/MeatloafWithSauce.jpg/800px-MeatloafWithSauce.jpg'],
@@ -64,10 +47,14 @@
   },
   {
     title: 'Bubble and squeak with gammon and fried eggs',
-    ingredient: [{
-        productId: ObjectId('5d7f5d8283780364cfd3ad94'),
-        amount: NumberDecimal('4'),
-      }
+    ingredient: [
+      "1 small savoy cabbage, coarsely shredded",
+      "Olive oil or butter for frying",
+      "2 gammon slices (about 200g), cut into chunks",
+      "Large pinch freshly grated nutmeg",
+      "700g leftover cooked vegetables, roughly chopped (we used potatoes, carrots and parsnips – see tip)",
+      "Small bunch fresh flatleaf parsley, roughly chopped",
+      "4 free-range eggs",
     ],
     description: 'Use up Sunday lunch leftovers with this bubble and squeak recipe. Throw in anything else you’ve got too for a classic winter warmer – and great if you’re on a budget, too.',
     mainImg: ['https://www.deliciousmagazine.co.uk/wp-content/uploads/2018/07/606309-1-eng-GB_bubble-squeak-with-gammon-fried-eggs-768x851.jpg'],

@@ -28,18 +28,7 @@ db.runCommand({
           bsonType: 'array',
           description: 'Must be an array and is required',
           items: {
-            bsonType: 'object',
-            required: ['productId', 'amount'],
-            properties: {
-              productId: {
-                bsonType: 'objectId',
-                description: 'Must be an objectId and is required',
-              },
-              amount: {
-                bsonType: 'decimal',
-                description: 'Must be an decimal and is required',
-              },
-            },
+            bsonType: 'string',
           },
         },
         comments: {
