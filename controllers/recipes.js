@@ -33,3 +33,11 @@ async function getRecipes(req, res) {
 }
 
 exports.getRecipes = getRecipes;
+
+exports.createRecipes = (req, res) => {
+  const { body } = req;
+  res.status(201).json({
+    message: "Recipe was created successfully!",
+    data: body
+  });
+};
