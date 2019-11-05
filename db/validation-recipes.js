@@ -3,11 +3,23 @@ db.runCommand({
   validator: {
     $jsonSchema: {
       bsonType: 'object',
-      required: ['title', 'ingredient'],
+      required: ['title', 'ingredient', 'language'],
       properties: {
         title: {
           bsonType: 'string',
           description: 'Must be a string and is required',
+        },
+        ingredient: {
+          bsonType: 'array',
+          description: 'Must be an array and is required',
+          items: {
+            bsonType: 'string',
+          },
+        },
+        language: {
+          bsonType: 'string',
+          enum: ["es", "en"],
+          description: 'Must be an string and accept only "es" or "en" as a value ',
         },
         description: {
           bsonType: 'string',
@@ -24,19 +36,12 @@ db.runCommand({
           bsonType: 'string',
           description: 'Must be a string',
         },
-        ingredient: {
-          bsonType: 'array',
-          description: 'Must be an array and is required',
-          items: {
-            bsonType: 'string',
-          },
-        },
         comments: {
           bsonType: ['array', 'null'],
           description: 'Must be an array or null',
           items: {
             bsonType: 'string',
-          },
+          }
         },
         more_info: {
           bsonType: 'object',
@@ -59,11 +64,6 @@ db.runCommand({
               description: 'Must be a 32-bit integer',
             }
           }
-        },
-        language: {
-          bsonType: 'string',
-          enum: ["es", "en"],
-          description: 'Must be an string and accept only "es" or "en" as a value ',
         }
       },
     },
