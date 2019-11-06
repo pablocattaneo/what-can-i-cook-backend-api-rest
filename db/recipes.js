@@ -1,6 +1,6 @@
 [{
     title: 'Arroz con leche',
-    ingredient: [
+    ingredients: [
       "100g de arroz redondo",
       "1l de leche entera",
       "1 trozo de cáscara de limón y de naranja",
@@ -22,7 +22,7 @@
   },
   {
     title: 'Meat Loaf',
-    ingredient: [
+    ingredients: [
       "1 - 1 / 2 pounds Ground Beef(93 % lean or leaner)",
       "3 / 4 cup Panko bread crumbs",
       "3 / 4 cup ketchup, divided",
@@ -47,7 +47,7 @@
   },
   {
     title: 'Bubble and squeak with gammon and fried eggs',
-    ingredient: [
+    ingredients: [
       "1 small savoy cabbage, coarsely shredded",
       "Olive oil or butter for frying",
       "2 gammon slices (about 200g), cut into chunks",

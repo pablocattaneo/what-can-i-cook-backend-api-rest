@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator/check");
 const { getDb } = require("../util/database");
 
 function getRecipesFromDb(filter) {
@@ -35,6 +36,13 @@ async function getRecipes(req, res) {
 exports.getRecipes = getRecipes;
 
 exports.createRecipes = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(422).json({
+      message: "Validation failed",
+      errors: errors.array()
+    });
+  }
   const { body } = req;
   res.status(201).json({
     message: "Recipe was created successfully!",

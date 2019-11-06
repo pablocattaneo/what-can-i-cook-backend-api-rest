@@ -3,13 +3,13 @@ db.runCommand({
   validator: {
     $jsonSchema: {
       bsonType: 'object',
-      required: ['title', 'ingredient', 'language'],
+      required: ['title', 'ingredients', 'language'],
       properties: {
         title: {
           bsonType: 'string',
           description: 'Must be a string and is required',
         },
-        ingredient: {
+        ingredients: {
           bsonType: 'array',
           description: 'Must be an array and is required',
           items: {

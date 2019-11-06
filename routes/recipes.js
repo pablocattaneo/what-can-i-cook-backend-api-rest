@@ -1,10 +1,24 @@
 const express = require("express");
+const { body } = require("express-validator/check");
 
 const router = express.Router();
 
 const recipesController = require("../controllers/recipes");
 
-router.post("/recipes/create-recipe", recipesController.createRecipes);
+router.post(
+  "/recipes/create-recipe",
+  [
+    body("title")
+      .trim()
+      .not()
+      .isEmpty(),
+    body("ingredients")
+      .trim()
+      .not()
+      .isEmpty()
+  ],
+  recipesController.createRecipes
+);
 router.get("/recipes/:productId", recipesController.getRecipeById);
 router.get("/recipes/", recipesController.getRecipes);
 
