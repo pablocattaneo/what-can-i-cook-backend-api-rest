@@ -16,6 +16,14 @@ function getRecipesFromDb(filter) {
     });
 }
 
+function insertRecipeToDb(recipes) {
+  const db = getDb().db();
+  (async () => {
+    const insertedResult = await db.collection("recipes").insertOne(recipes);
+    return insertedResult;
+  })();
+}
+
 exports.getRecipeById = (req, res) => {
   res.send(`<h1>Hello recipe ${req.params.productId} !!</h1>`);
 };
@@ -35,7 +43,7 @@ async function getRecipes(req, res) {
 
 exports.getRecipes = getRecipes;
 
-exports.createRecipes = (req, res) => {
+exports.createRecipe = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
@@ -43,9 +51,24 @@ exports.createRecipes = (req, res) => {
       errors: errors.array()
     });
   }
+  function stringToArray(string, regex = /[\n\r]/g) {
+    return string.split(regex);
+  }
   const { body } = req;
-  res.status(201).json({
-    message: "Recipe was created successfully!",
-    data: body
-  });
+  const recipe = {
+    title: body.title,
+    ingredients: stringToArray(body.ingredients),
+    language: body.language
+  };
+  (async () => {
+    try {
+      await insertRecipeToDb(recipe);
+      res.status(201).json({
+        message: "Recipe was created successfully!",
+        data: body
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  })();
 };
