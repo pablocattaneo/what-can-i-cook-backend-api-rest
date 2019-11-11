@@ -15,9 +15,13 @@ router.post(
     body("ingredients")
       .trim()
       .not()
+      .isEmpty(),
+    body("language")
+      .trim()
+      .not()
       .isEmpty()
   ],
-  recipesController.createRecipes
+  recipesController.createRecipe
 );
 router.get("/recipes/:productId", recipesController.getRecipeById);
 router.get("/recipes/", recipesController.getRecipes);
