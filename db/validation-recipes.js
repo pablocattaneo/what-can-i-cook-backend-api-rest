@@ -3,7 +3,7 @@ db.runCommand({
   validator: {
     $jsonSchema: {
       bsonType: 'object',
-      required: ['title', 'ingredients', 'language'],
+      required: ['title', 'ingredients', 'language', 'directions'],
       properties: {
         title: {
           bsonType: 'string',
@@ -20,6 +20,13 @@ db.runCommand({
           bsonType: 'string',
           enum: ["es", "en"],
           description: 'Must be an string and accept only "es" or "en" as a value ',
+        },
+        directions: {
+          bsonType: 'array',
+          description: 'Must be an array',
+          items: {
+            bsonType: 'string',
+          },
         },
         description: {
           bsonType: 'string',

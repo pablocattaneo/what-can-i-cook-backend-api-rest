@@ -19,6 +19,10 @@ router.post(
     body("language")
       .trim()
       .not()
+      .isEmpty(),
+    body("directions")
+      .trim()
+      .not()
       .isEmpty()
   ],
   recipesController.createRecipe
