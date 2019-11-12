@@ -18,8 +18,11 @@ function getRecipesFromDb(filter) {
 
 function insertRecipeToDb(recipes) {
   const db = getDb().db();
-  (async () => {
-    const insertedResult = await db.collection("recipes").insertOne(recipes);
+  return (async () => {
+    const insertOneWriteOpResultObject = await db
+      .collection("recipes")
+      .insertOne(recipes);
+    const insertedResult = insertOneWriteOpResultObject.ops[0];
     return insertedResult;
   })();
 }
@@ -62,10 +65,10 @@ exports.createRecipe = (req, res) => {
   };
   (async () => {
     try {
-      await insertRecipeToDb(recipe);
+      const recipeStored = await insertRecipeToDb(recipe);
       res.status(201).json({
         message: "Recipe was created successfully!",
-        data: body
+        data: recipeStored
       });
     } catch (error) {
       console.log("error", error);
