@@ -33,11 +33,8 @@ db.runCommand({
           description: 'Must be a string',
         },
         mainImg: {
-          bsonType: 'array',
-          description: 'Must be an array',
-          items: {
-            bsonType: 'string',
-          },
+          bsonType: 'string',
+          description: 'Must be an string',
         },
         thumbnailImg: {
           bsonType: 'string',

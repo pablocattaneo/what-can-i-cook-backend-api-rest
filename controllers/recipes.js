@@ -54,14 +54,22 @@ exports.createRecipe = (req, res) => {
       errors: errors.array()
     });
   }
+  if (!req.file) {
+    const error = new Error("No image provided.");
+    error.statusCode = 422;
+    throw error;
+  }
   function stringToArray(string, regex = /[\n\r]/g) {
     return string.split(regex);
   }
   const { body } = req;
+  const imageUrl = req.file.path;
   const recipe = {
     title: body.title,
     ingredients: stringToArray(body.ingredients),
-    language: body.language
+    directions: stringToArray(body.directions),
+    language: body.language,
+    mainImg: imageUrl
   };
   (async () => {
     try {
