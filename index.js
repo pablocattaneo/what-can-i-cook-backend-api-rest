@@ -14,7 +14,7 @@ const app = express();
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "images");
+    callback(null, "images/recipes");
   },
   filename: (req, file, callback) => {
     callback(null, `${new Date().toISOString()}-${file.originalname}`);
@@ -34,7 +34,7 @@ const fileFilter = (req, file, callback) => {
 };
 
 app.use(bodyParser.json());
-app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/images/recipes", express.static(path.join(__dirname, "images/recipes")));
 app.use(multer({ storage: fileStorage, fileFilter }).single("mainImage"));
 
 app.use((req, res, next) => {

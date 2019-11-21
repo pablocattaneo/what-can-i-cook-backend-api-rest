@@ -36,6 +36,7 @@ async function getRecipes(req, res) {
   console.log("req.query", req.query);
   try {
     const response = await getRecipesFromDb(req.query);
+    console.log("response", response);
     return res.status(200).json(response);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -55,7 +56,7 @@ exports.createRecipe = (req, res) => {
     });
   }
   if (!req.file) {
-    const error = new Error("No image provided.");
+    const error = new Error("The file upload must be png, jpg or jpeg");
     error.statusCode = 422;
     throw error;
   }
@@ -63,6 +64,7 @@ exports.createRecipe = (req, res) => {
     return string.split(regex);
   }
   const { body } = req;
+  console.log("req.file", req.file);
   const imageUrl = req.file.path;
   const recipe = {
     title: body.title,
