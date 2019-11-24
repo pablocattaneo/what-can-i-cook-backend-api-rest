@@ -55,17 +55,11 @@ exports.createRecipe = (req, res) => {
       errors: errors.array()
     });
   }
-  if (!req.file) {
-    const error = new Error("The file upload must be png, jpg or jpeg");
-    error.statusCode = 422;
-    throw error;
-  }
   function stringToArray(string, regex = /[\n\r]/g) {
     return string.split(regex);
   }
   const { body } = req;
-  console.log("req.file", req.file);
-  const imageUrl = req.file.path;
+  const imageUrl = req.file ? req.file.path : null;
   const recipe = {
     title: body.title,
     ingredients: stringToArray(body.ingredients),

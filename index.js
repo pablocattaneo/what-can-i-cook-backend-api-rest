@@ -34,7 +34,10 @@ const fileFilter = (req, file, callback) => {
 };
 
 app.use(bodyParser.json());
-app.use("/images/recipes", express.static(path.join(__dirname, "images/recipes")));
+app.use(
+  "/images/recipes",
+  express.static(path.join(__dirname, "images/recipes"))
+);
 app.use(multer({ storage: fileStorage, fileFilter }).single("mainImage"));
 
 app.use((req, res, next) => {
