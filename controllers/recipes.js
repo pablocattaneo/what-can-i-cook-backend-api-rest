@@ -62,6 +62,7 @@ exports.createRecipe = (req, res) => {
   const imageUrl = req.file ? req.file.path : null;
   const recipe = {
     title: body.title,
+    description: body.description,
     ingredients: stringToArray(body.ingredients),
     directions: stringToArray(body.directions),
     language: body.language,
