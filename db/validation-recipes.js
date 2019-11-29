@@ -52,20 +52,20 @@ db.runCommand({
           description: 'Must be an object',
           properties: {
             serving: {
-              bsonType: 'int',
-              description: 'Must be a 32-bit integer',
+              bsonType: ['int', 'null'],
+              description: 'Must be a 32-bit integer value or null',
             },
             cookTime: {
-              bsonType: 'int',
-              description: 'Must be a 32-bit integer',
+              bsonType: ['int', 'null'],
+              description: 'Must be a 32-bit integer value or null',
             },
             readyIn: {
-              bsonType: 'int',
-              description: 'Must be a 32-bit integer',
+              bsonType: ['int', 'null'],
+              description: 'Must be a 32-bit integer value or null',
             },
             calories: {
-              bsonType: 'int',
-              description: 'Must be a 32-bit integer',
+              bsonType: ['int', 'null'],
+              description: 'Must be a 32-bit integer value or null',
             }
           }
         }

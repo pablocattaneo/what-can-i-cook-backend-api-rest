@@ -60,13 +60,28 @@ exports.createRecipe = (req, res) => {
   }
   const { body } = req;
   const imageUrl = req.file ? req.file.path : null;
+  const moreInfo = JSON.parse(body.moreInfo);
   const recipe = {
     title: body.title,
     description: body.description,
     ingredients: stringToArray(body.ingredients),
     directions: stringToArray(body.directions),
     language: body.language,
-    mainImg: imageUrl
+    mainImg: imageUrl,
+    more_info: {
+      serving: parseInt(moreInfo.serving, 10)
+        ? parseInt(moreInfo.serving, 10)
+        : null,
+      cookTime: parseInt(moreInfo.cookTime, 10)
+        ? parseInt(moreInfo.cookTime, 10)
+        : null,
+      readyIn: parseInt(moreInfo.readyIn, 10)
+        ? parseInt(moreInfo.readyIn, 10)
+        : null,
+      calories: parseInt(moreInfo.calories, 10)
+        ? parseInt(moreInfo.calories, 10)
+        : null
+    }
   };
   (async () => {
     try {
