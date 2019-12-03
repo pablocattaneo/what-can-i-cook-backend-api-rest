@@ -60,6 +60,14 @@ app.use((req, res) => {
   res.status(404).send("<h1>404!! Page not found</h1>");
 });
 
+app.use((error, req, res) => {
+  // eslint-disable-next-line no-console
+  console.log("error catch all", error);
+  res.status(503).json({
+    error
+  });
+});
+
 mongoConnect("mongodb://127.0.0.1:27017/what-can-i-cook", () => {
   app.listen(5000);
 });
