@@ -28,6 +28,28 @@ router.post(
   recipesController.createRecipe
 );
 router.get("/recipes/:productId", recipesController.getRecipeById);
+router.put(
+  "/recipes/:recipeId",
+  [
+    body("title")
+      .trim()
+      .not()
+      .isEmpty(),
+    body("ingredients")
+      .trim()
+      .not()
+      .isEmpty(),
+    body("language")
+      .trim()
+      .not()
+      .isEmpty(),
+    body("directions")
+      .trim()
+      .not()
+      .isEmpty()
+  ],
+  recipesController.updatePost
+);
 router.get("/recipes/", recipesController.getRecipes);
 
 module.exports = router;

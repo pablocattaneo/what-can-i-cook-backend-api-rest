@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const { ObjectId } = require("mongodb");
 const { getDb } = require("../util/database");
 
 function getRecipesFromDb(filter) {
@@ -16,15 +17,28 @@ function getRecipesFromDb(filter) {
     });
 }
 
-function insertRecipeToDb(recipes) {
+async function insertRecipeToDb(recipes) {
   const db = getDb().db();
-  return (async () => {
-    const insertOneWriteOpResultObject = await db
+  const insertOneWriteOpResultObject = await db
+    .collection("recipes")
+    .insertOne(recipes);
+  const insertedResult = insertOneWriteOpResultObject.ops[0];
+  return insertedResult;
+}
+
+async function updateRecipeFromDb(recipeId) {
+  try {
+    const db = getDb().db();
+    const returnValueAfterUpdateDocument = await db
       .collection("recipes")
-      .insertOne(recipes);
-    const insertedResult = insertOneWriteOpResultObject.ops[0];
-    return insertedResult;
-  })();
+      .updateOne(
+        { _id: new ObjectId(recipeId) },
+        { $set: { title: "Arroz con leche (receta clásicaa)" } }
+      );
+    return returnValueAfterUpdateDocument;
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 exports.getRecipeById = (req, res) => {
@@ -36,7 +50,6 @@ async function getRecipes(req, res) {
   console.log("req.query", req.query);
   try {
     const response = await getRecipesFromDb(req.query);
-    console.log("response", response);
     return res.status(200).json(response);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -94,4 +107,53 @@ exports.createRecipe = (req, res) => {
       console.log("error", error);
     }
   })();
+};
+
+exports.updatePost = async (req, res, next) => {
+  console.log("req.params.recipeId", req.params.recipeId);
+  try {
+    const result = await updateRecipeFromDb(req.params.recipeId);
+    console.log("result");
+    res.json({
+      result
+    });
+  } catch (error) {
+    next(error);
+  }
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   res.status(422).json({
+  //     message: "Validation failed",
+  //     errors: errors.array()
+  //   });
+  // }
+  // function stringToArray(string, regex = /[\n\r]/g) {
+  //   return string.split(regex);
+  // }
+  // const { recipeId } = req.params;
+  // const { body } = req;
+  // const imageUrl = req.file ? req.file.path : null;
+  // const moreInfo = JSON.parse(body.moreInfo);
+  // const recipe = {
+  //   title: body.title,
+  //   description: body.description,
+  //   ingredients: stringToArray(body.ingredients),
+  //   directions: stringToArray(body.directions),
+  //   language: body.language,
+  //   mainImg: imageUrl || req.body.mainImg,
+  //   more_info: {
+  //     serving: parseInt(moreInfo.serving, 10)
+  //       ? parseInt(moreInfo.serving, 10)
+  //       : null,
+  //     cookTime: parseInt(moreInfo.cookTime, 10)
+  //       ? parseInt(moreInfo.cookTime, 10)
+  //       : null,
+  //     readyIn: parseInt(moreInfo.readyIn, 10)
+  //       ? parseInt(moreInfo.readyIn, 10)
+  //       : null,
+  //     calories: parseInt(moreInfo.calories, 10)
+  //       ? parseInt(moreInfo.calories, 10)
+  //       : null
+  //   }
+  // };
 };

@@ -23,6 +23,8 @@ function mongoConnect(uri, callback) {
     });
 }
 
+exports.mongoConnect = mongoConnect;
+
 function getDb() {
   if (db) {
     return db;
@@ -30,5 +32,4 @@ function getDb() {
   throw new Error("No database found");
 }
 
-exports.mongoConnect = mongoConnect;
 exports.getDb = getDb;
