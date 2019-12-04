@@ -29,13 +29,13 @@ async function insertRecipeToDb(recipes) {
 async function updateRecipeFromDb(recipeId) {
   try {
     const db = getDb().db();
-    const returnValueAfterUpdateDocument = await db
+    const returnedValueAfterUpdateDocument = await db
       .collection("recipes")
       .updateOne(
         { _id: new ObjectId(recipeId) },
         { $set: { title: "Arroz con leche (receta clásicaa)" } }
       );
-    return returnValueAfterUpdateDocument;
+    return returnedValueAfterUpdateDocument;
   } catch (error) {
     throw new Error(error);
   }
@@ -110,10 +110,8 @@ exports.createRecipe = (req, res) => {
 };
 
 exports.updatePost = async (req, res, next) => {
-  console.log("req.params.recipeId", req.params.recipeId);
   try {
     const result = await updateRecipeFromDb(req.params.recipeId);
-    console.log("result");
     res.json({
       result
     });

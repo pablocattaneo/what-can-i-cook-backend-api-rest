@@ -29,7 +29,7 @@ router.post(
 );
 router.get("/recipes/:productId", recipesController.getRecipeById);
 router.put(
-  "/recipes/:recipeId",
+  "/admin/recipes/editing/:recipeId",
   [
     body("title")
       .trim()
