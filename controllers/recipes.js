@@ -52,9 +52,7 @@ exports.getRecipeById = async (req, res) => {
     const recipe = await db
       .collection("recipes")
       .findOne({ _id: new ObjectId(recipeId) });
-    res.json({
-      recipe
-    });
+    res.json(recipe);
   } catch (error) {
     throw new Error(error);
   }
