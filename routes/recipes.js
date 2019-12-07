@@ -27,7 +27,7 @@ router.post(
   ],
   recipesController.createRecipe
 );
-router.get("/recipes/:productId", recipesController.getRecipeById);
+router.get("/recipes/:recipeId", recipesController.getRecipeById);
 router.put(
   "/admin/recipes/editing/:recipeId",
   [
