@@ -45,6 +45,34 @@ async function updateRecipeFromDb(recipeId, recipeEditedValues) {
   }
 }
 
+exports.deleteRecipe = async (req, res) => {
+  const { recipeId } = req.params;
+  try {
+    let response;
+    const db = getDb().db();
+    const recipe = await db
+      .collection("recipes")
+      .findOne({ _id: new ObjectId(recipeId) });
+    response =
+      recipe === null
+        ? { message: "Document does't exist" }
+        : { message: "Document exist" };
+    if (recipe) {
+      const recipeDeleted = await db
+        .collection("recipes")
+        .deleteOne({ _id: new ObjectId(recipeId) });
+      response = recipeDeleted;
+    }
+    // If recipe exist:
+    //  delete it
+    //  Delete img
+    // else send a message that recipe doesn't exist
+    res.json(response);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 exports.getRecipeById = async (req, res) => {
   const { recipeId } = req.params;
   try {
