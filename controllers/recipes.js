@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const { ObjectId } = require("mongodb");
 const { getDb } = require("../util/database");
+const { deleteFile } = require("../util/file");
 
 function getRecipesFromDb(filter) {
   const db = getDb().db();
@@ -61,12 +62,9 @@ exports.deleteRecipe = async (req, res) => {
       const recipeDeleted = await db
         .collection("recipes")
         .deleteOne({ _id: new ObjectId(recipeId) });
+      deleteFile(recipe.mainImg);
       response = recipeDeleted;
     }
-    // If recipe exist:
-    //  delete it
-    //  Delete img
-    // else send a message that recipe doesn't exist
     res.json(response);
   } catch (error) {
     throw new Error(error);
