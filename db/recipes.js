@@ -37,7 +37,7 @@
     ],
     directions: ["Preheat oven to 350 degrees F (175 degrees C).", "In a large bowl, combine the beef, egg, onion, milk and bread OR cracker crumbs. Season with salt and pepper to taste and place in a lightly greased 5x9 inch loaf pan, OR form into a loaf and place in a lightly greased 9x13 inch baking dish.", "In a separate small bowl, combine the brown sugar, mustard and ketchup. Mix well and pour over the meatloaf.", "Bake at 350 degrees F (175 degrees C) for 1 hour."],
     description: 'Meatloaf is a dish of ground meat that has been mixed with other ingredients and formed into the shape of a loaf, then baked or smoked. The final shape is either hand-formed on a flat pan or created by cooking it in a loaf pan.[1] It is usually made with ground beef, although ground lamb, pork, veal, venison, poultry and seafood are also used.',
-    mainImg: 'images/recipes/bubble-squeak-with-gammon-fried-eggs.jpg',
+    mainImg: 'images/recipes/meatloaf.jpg',
     thumbnailImg: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/MeatloafWithSauce.jpg/800px-MeatloafWithSauce.jpg',
     comments: null,
     more_info: {
@@ -60,7 +60,7 @@
     ],
     directions: ["Put the cabbage in a colander and pour over a kettleful of freshly boiled water. Leave to drain and steam dry.","Heat a large frying pan and add a glug of oil or a knob of butter. When sizzling, fry the gammon for 2-3 minutes until golden, turning often, then remove from the pan to a plate.","Add the cabbage, season well with salt and pepper and sprinkle with the nutmeg, then toss and fry over a high heat for 3-4 minutes until taking on some colour. Add the cooked veg, season well, then toss everything for 5-6 minutes, pressing down on the mixture in the pan every now and then to brown the veg. Keep it over a high heat – it’s hard to burn it and the caramelised spots are the best bits. Once the veg is hot and golden in parts, return the gammon to the pan with its resting juices and toss everything together for a couple of minutes.","Keep the pan over a low heat while you fry the eggs. Heat a second frying pan with a glug of oil or knob of butter over a high heat, crack in the eggs, then fry until crisp underneath. Divide the bubble and squeak among 4 plates and top each with a fried egg. Serve immediately, with pickles and mustard or ketchup."],
     description: 'Use up Sunday lunch leftovers with this bubble and squeak recipe. Throw in anything else you’ve got too for a classic winter warmer – and great if you’re on a budget, too.',
-    mainImg: 'images/recipes/meatloaf.jpg',
+    mainImg: 'images/recipes/bubble-squeak-with-gammon-fried-eggs.jpg',
     thumbnailImg: 'https://www.deliciousmagazine.co.uk/wp-content/uploads/2018/07/606309-1-eng-GB_bubble-squeak-with-gammon-fried-eggs-768x851.jpg',
     comments: null,
     more_info: {
