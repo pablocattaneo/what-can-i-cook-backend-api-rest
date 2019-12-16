@@ -1,4 +1,5 @@
-db.createCollection('users', {
+db.runCommand({
+  collMod:'users',
   validator: {
     $jsonSchema: {
       bsonType: 'object',
@@ -19,26 +20,7 @@ db.createCollection('users', {
         email: {
           bsonType: 'string',
           description: 'Must be a string and is required',
-        },
-        favoritesRecipes: {
-          bsonType: 'array',
-          description: 'Must be an array',
-          uniqueItems: true,
-          items: {
-            bsonType: 'object',
-            required: ['title', 'description'],
-            properties: {
-              title: {
-                bsonType: 'string',
-                description: 'Must be a string and is required',
-              },
-              description: {
-                bsonType: 'string',
-                description: 'Must be a string and is required',
-              },
-            },
-          },
-        },
+        }
       },
     },
   },
