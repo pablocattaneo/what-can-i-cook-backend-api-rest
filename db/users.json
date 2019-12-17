@@ -1,13 +1,15 @@
-{
+[
   {
-    "username": "pablocattaneo",
+    "userName": "pablocattaneo",
     "name": "Pablo",
     "lastName": "Cattaneo",
-    "email": "pablocattaneo1@gmail.com"
+    "email": "pablocattaneo1@gmail.com",
+    "password": "1234"
   }, {
-    "username": "victoriaf",
+    "userName": "victoriaf",
     "name": "Victoria",
     "lastName": "Fernandez",
-    "email": "vicky@gmail.com"
+    "email": "vicky@gmail.com",
+    "password": "1234"
   }
-}
+]

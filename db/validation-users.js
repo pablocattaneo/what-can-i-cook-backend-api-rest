@@ -3,9 +3,13 @@ db.runCommand({
   validator: {
     $jsonSchema: {
       bsonType: 'object',
-      required: ['username', 'name', 'lastName', 'email'],
+      required: ['userName', 'name', 'lastName', 'email'],
       properties: {
-        username: {
+        userName: {
+          bsonType: 'string',
+          description: 'Must be a string and is required',
+        },
+        password: {
           bsonType: 'string',
           description: 'Must be a string and is required',
         },
