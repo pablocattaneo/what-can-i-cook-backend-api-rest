@@ -85,8 +85,6 @@ exports.getRecipeById = async (req, res) => {
 };
 
 async function getRecipes(req, res) {
-  // eslint-disable-next-line no-console
-  console.log("req.query", req.query);
   try {
     const response = await getRecipesFromDb(req.query);
     return res.status(200).json(response);
