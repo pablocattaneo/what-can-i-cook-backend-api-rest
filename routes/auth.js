@@ -17,17 +17,30 @@ router.put(
       .custom(emailValue => {
         const db = getDb().db();
         // eslint-disable-next-line promise/catch-or-return
-        return db
-          .collection("users")
-          .findOne({ email: emailValue })
-          .then(userDoc => {
-            // eslint-disable-next-line promise/always-return
-            if (userDoc) {
-              return Promise.reject(new Error("Email addres already exist"));
-            }
-          });
+        return (
+          db
+            .collection("users")
+            .findOne({ email: emailValue })
+            // eslint-disable-next-line consistent-return
+            .then(userDoc => {
+              // eslint-disable-next-line promise/always-return
+              if (userDoc) {
+                return Promise.reject(new Error("Email addres already exist"));
+              }
+            })
+        );
       }),
     body("password")
+      .trim()
+      .not()
+      .isEmpty(),
+    body("confirmPassword")
+      .custom((value, { req }) => {
+        if (value !== req.body.password) {
+          throw new Error("Password and confirm password fields have to match");
+        }
+        return true;
+      })
       .trim()
       .not()
       .isEmpty(),
