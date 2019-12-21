@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { getDb } = require("../util/database");
 
 exports.signup = (req, res) => {
@@ -43,4 +44,42 @@ exports.signup = (req, res) => {
       // eslint-disable-next-line no-console
       console.log("error", error);
     });
+};
+
+exports.login = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const { password } = req.body;
+    const db = getDb().db();
+    const user = await db.collection("users").findOne({ email });
+    if (user === null) {
+      const error = new Error("Email doesn't exist.");
+      error.status = 401;
+      throw error;
+    }
+    const loadedUser = user;
+    console.log("user", user);
+    const userPasswordAndStorePasswordAreIqual = await bcrypt.compare(
+      password,
+      user.password
+    );
+    if (!userPasswordAndStorePasswordAreIqual) {
+      const error = new Error("Password is wrong");
+      error.status = 401;
+      throw error;
+    }
+    const token = jwt.sign(
+      {
+        email: loadedUser.email,
+        // eslint-disable-next-line no-underscore-dangle
+        userId: loadedUser._id.toString()
+      },
+      "somesupersecretsecret",
+      { expiresIn: "1hr" }
+    );
+    // eslint-disable-next-line no-underscore-dangle
+    res.status(200).json({ token, userId: loadedUser._id.toString() });
+  } catch (error) {
+    console.log("error", error);
+  }
 };

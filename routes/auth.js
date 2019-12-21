@@ -25,7 +25,6 @@ router.put(
             .then(userDoc => {
               // eslint-disable-next-line promise/always-return
               if (userDoc) {
-                console.log("userDoc", userDoc);
                 return Promise.reject(
                   new Error(
                     `Email addres ${
@@ -66,5 +65,7 @@ router.put(
   ],
   authController.signup
 );
+
+router.post("/login", authController.login);
 
 module.exports = router;
