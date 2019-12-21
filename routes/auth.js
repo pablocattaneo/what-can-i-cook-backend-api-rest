@@ -25,7 +25,14 @@ router.put(
             .then(userDoc => {
               // eslint-disable-next-line promise/always-return
               if (userDoc) {
-                return Promise.reject(new Error("Email addres already exist"));
+                console.log("userDoc", userDoc);
+                return Promise.reject(
+                  new Error(
+                    `Email addres ${
+                      userDoc.email
+                    } already exist in our registry.`
+                  )
+                );
               }
             })
         );
