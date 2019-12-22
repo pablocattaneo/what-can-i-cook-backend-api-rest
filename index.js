@@ -59,7 +59,9 @@ app.use(auth);
 app.use(home);
 
 app.use((req, res) => {
-  res.status(404).send("<h1>404!! Page not found</h1>");
+  res.status(404).json({
+    error: "404!! Page not found"
+  });
 });
 
 app.use((error, req, res) => {

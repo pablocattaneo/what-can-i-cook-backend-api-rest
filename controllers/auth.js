@@ -81,6 +81,6 @@ exports.login = async (req, res, next) => {
     res.status(200).json({ token, userId: loadedUser._id.toString() });
   } catch (error) {
     console.log("error", error);
-    next(error)
+    next(error);
   }
 };

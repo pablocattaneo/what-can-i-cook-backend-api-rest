@@ -4,6 +4,7 @@ const { body } = require("express-validator");
 const router = express.Router();
 
 const recipesController = require("../controllers/recipes");
+const isAuth = require("../middleware/is-auth");
 
 router.post(
   "/recipes/create-recipe",
@@ -51,6 +52,6 @@ router.put(
   ],
   recipesController.updatePost
 );
-router.get("/recipes/", recipesController.getRecipes);
+router.get("/recipes/", isAuth, recipesController.getRecipes);
 
 module.exports = router;
