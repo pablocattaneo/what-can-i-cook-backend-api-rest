@@ -4,7 +4,7 @@
   "description": "What can I cook",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "nodemon index.js",
     "lint": "eslint ./",
     "lintfix": "eslint ./ --fix"
@@ -29,12 +29,14 @@
     "multer": "^1.4.2"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-import": "^2.20.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^4.2.1",
+    "mocha": "^7.0.0",
     "nodemon": "^1.19.4"
   }
 }
