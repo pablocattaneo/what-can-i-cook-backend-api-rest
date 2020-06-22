@@ -64,7 +64,8 @@ app.use((req, res) => {
   });
 });
 
-app.use((error, req, res) => {
+// eslint-disable-next-line no-unused-vars
+app.use((error, req, res, next) => {
   // eslint-disable-next-line no-console
   console.log("error catch all", error);
   res.status(503).json({
