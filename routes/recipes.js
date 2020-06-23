@@ -52,6 +52,6 @@ router.put(
   ],
   recipesController.updatePost
 );
-router.get("/recipes/", isAuth, recipesController.getRecipes);
+router.get("/recipes/", recipesController.getRecipes);
 
 module.exports = router;
