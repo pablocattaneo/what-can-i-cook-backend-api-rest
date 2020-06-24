@@ -70,7 +70,7 @@ app.use((req, res) => {
 app.use((error, req, res, next) => {
   // eslint-disable-next-line no-console
   console.log("error catch all", error);
-  res.status(503).json({
+  res.status(500).json({
     error
   });
 });
