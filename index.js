@@ -4,6 +4,7 @@ const path = require("path");
 
 const multer = require("multer");
 const home = require("./routes/home");
+const user = require("./routes/user");
 const adminRoutes = require("./routes/admin");
 const adminshop = require("./routes/shop");
 const adminsProducts = require("./routes/products");
@@ -57,6 +58,7 @@ app.use(adminsProducts);
 app.use(frontRecipes);
 app.use(auth);
 app.use(home);
+app.use(user);
 
 app.use((req, res) => {
   res.status(404).json({
