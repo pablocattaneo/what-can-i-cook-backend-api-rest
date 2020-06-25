@@ -70,7 +70,6 @@ exports.login = async (req, res, next) => {
     }
     const token = jwt.sign(
       {
-        email: loadedUser.email,
         // eslint-disable-next-line no-underscore-dangle
         userId: loadedUser._id.toString()
       },
