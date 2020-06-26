@@ -54,8 +54,10 @@ exports.login = async (req, res, next) => {
     const db = getDb().db();
     const user = await db.collection("users").findOne({ email });
     if (user === null) {
-      const error = new Error("Email doesn't exist.");
-      error.status = 401;
+      const customErrorMessage = "Email doesn't exist.";
+      const error = new Error(customErrorMessage);
+      error.statusCode = 400;
+      error.customErrorMessage = customErrorMessage;
       throw error;
     }
     const loadedUser = user;
@@ -65,7 +67,7 @@ exports.login = async (req, res, next) => {
     );
     if (!userPasswordAndStorePasswordAreIqual) {
       const error = new Error("Password is wrong");
-      error.status = 401;
+      error.statusCode = 400;
       throw error;
     }
     const token = jwt.sign(
@@ -80,7 +82,7 @@ exports.login = async (req, res, next) => {
     // eslint-disable-next-line no-underscore-dangle
     res.status(200).json({ token, userId: loadedUser._id.toString() });
   } catch (error) {
-    console.log("error", error);
+    console.log("error 85", error);
     next(error);
   }
 };

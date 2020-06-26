@@ -72,7 +72,7 @@ app.use((error, req, res, next) => {
   console.log("error catch all", error);
   const httpStatusError = error.statusCode || 500;
   res.status(httpStatusError).json({
-    error
+    ...error
   });
 });
 
