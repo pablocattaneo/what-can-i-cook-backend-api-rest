@@ -13,11 +13,7 @@ exports.signup = (req, res) => {
     });
     throw new Error("Validation failed Error");
   }
-  const { userName } = req.body;
-  const { password } = req.body;
-  const { name } = req.body;
-  const { lastName } = req.body;
-  const { email } = req.body;
+  const { userName, password, name, lastName, email } = req.body;
   bcrypt
     .hash(password, 12)
     .then(passwordEnc => {
