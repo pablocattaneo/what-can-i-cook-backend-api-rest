@@ -23,13 +23,14 @@ exports.updateUserById = async (req, res) => {
     const dbConnection = getDb().db();
     const db = await dbConnection;
     const usersCollection = await db.collection("users");
-    const user = await usersCollection.updateOne(
+    await usersCollection.updateOne(
       { _id: new ObjectId(userId) },
       {
         $set: contentToUpdate
       }
     );
-    res.json(user);
+    const fakeReq = { params: { userId } };
+    this.getUserById(fakeReq, res);
   } catch (error) {
     throw new Error(error);
   }
