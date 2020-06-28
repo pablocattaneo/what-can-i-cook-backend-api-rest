@@ -11,7 +11,24 @@ exports.getUserById = async (req, res) => {
       { _id: new ObjectId(userId) },
       { projection: { password: 0 } }
     );
-    console.log("user", user);
+    res.json(user);
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+exports.updateUserById = async (req, res) => {
+  const { contentToUpdate, userId } = req.body;
+  try {
+    const dbConnection = getDb().db();
+    const db = await dbConnection;
+    const usersCollection = await db.collection("users");
+    const user = await usersCollection.updateOne(
+      { _id: new ObjectId(userId) },
+      {
+        $set: contentToUpdate
+      }
+    );
     res.json(user);
   } catch (error) {
     throw new Error(error);
