@@ -112,7 +112,7 @@ exports.createRecipe = (req, res) => {
   const imageUrl = req.file ? req.file.path : null;
   const moreInfo = JSON.parse(body.moreInfo);
   const recipe = {
-    author: body.author,
+    author: new ObjectId(body.author),
     title: body.title,
     description: body.description,
     ingredients: stringToArray(body.ingredients),
