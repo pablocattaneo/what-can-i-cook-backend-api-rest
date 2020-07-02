@@ -18,7 +18,7 @@ function getRecipesFromDb(filter) {
     });
 }
 
-async function insertRecipeToDb(recipes) {
+async function createRecipe(recipes) {
   const db = getDb().db();
   const insertOneWriteOpResultObject = await db
     .collection("recipes")
@@ -135,7 +135,7 @@ exports.createRecipe = (req, res) => {
   };
   (async () => {
     try {
-      const recipeStored = await insertRecipeToDb(recipe);
+      const recipeStored = await createRecipe(recipe);
       res.status(201).json({
         message: "Recipe was created successfully!",
         data: recipeStored
