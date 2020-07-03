@@ -1,0 +1,2 @@
+{"_id":{"$oid":"5eff2e02341fbb6b41cc7c12"},"userName":"pablocattaneo","password":"$2a$12$JFnzhO.DzUEYCgGwbt1Y7uVbSEU6jrr9zMQDc8kSNN6kXC2lY395O","name":"Pablo","lastName":"Cattaneo","email":"pablocattaneo1@gmail.com"}
+{"_id":{"$oid":"5eff2e27341fbb6b41cc7c13"},"userName":"victoriaf","password":"$2a$12$VJd.E/BEjgHJDaKr6TvALeom5NoTCp.BcAVPtbFYWyaaNTXFC404G","name":"Victoria","lastName":"Fenandez","email":"vicky@gmail.com"}
