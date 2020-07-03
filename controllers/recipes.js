@@ -35,9 +35,7 @@ async function updateRecipeFromDb(recipeId, recipeEditedValues) {
       .updateOne(
         { _id: new ObjectId(recipeId) },
         {
-          $set: {
-            title: recipeEditedValues.title
-          }
+          $set: recipeEditedValues
         }
       );
     return returnedValueAfterUpdateDocument;
@@ -62,7 +60,9 @@ exports.deleteRecipe = async (req, res) => {
       const recipeDeleted = await db
         .collection("recipes")
         .deleteOne({ _id: new ObjectId(recipeId) });
-      deleteFile(recipe.mainImg);
+      if (recipe.mainImg) {
+        deleteFile(recipe.mainImg);
+      }
       response = recipeDeleted;
     }
     res.json(response);
@@ -73,6 +73,7 @@ exports.deleteRecipe = async (req, res) => {
 
 exports.getRecipeById = async (req, res) => {
   const { recipeId } = req.params;
+  console.log("recipeId", recipeId)
   try {
     const db = getDb().db();
     const recipe = await db
