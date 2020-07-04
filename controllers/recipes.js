@@ -73,7 +73,6 @@ exports.deleteRecipe = async (req, res) => {
 
 exports.getRecipeById = async (req, res) => {
   const { recipeId } = req.params;
-  console.log("recipeId", recipeId)
   try {
     const db = getDb().db();
     const recipe = await db
