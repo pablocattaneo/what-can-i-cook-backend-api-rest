@@ -132,7 +132,8 @@ exports.createRecipe = (req, res) => {
       calories: parseInt(moreInfo.calories, 10)
         ? parseInt(moreInfo.calories, 10)
         : null
-    }
+    },
+    slug: body.slug
   };
   (async () => {
     try {
@@ -181,7 +182,8 @@ exports.updatePost = async (req, res, next) => {
       calories: parseInt(moreInfo.calories, 10)
         ? parseInt(moreInfo.calories, 10)
         : null
-    }
+    },
+    slug: body.slug
   };
   try {
     const result = await updateRecipeFromDb(
