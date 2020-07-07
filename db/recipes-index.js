@@ -1,0 +1,1 @@
+db.recipes.createIndex({slug: 1})
