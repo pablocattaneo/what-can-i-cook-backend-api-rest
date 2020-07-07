@@ -3,8 +3,12 @@ db.runCommand({
   validator: {
     $jsonSchema: {
       bsonType: 'object',
-      required: ['title', 'ingredients', 'language', 'directions'],
+      required: ['author','title', 'ingredients', 'language', 'directions'],
       properties: {
+        author: {
+          bsonType: 'objectId',
+          description: 'Must be a objectId and is required',
+        },
         title: {
           bsonType: 'string',
           description: 'Must be a string and is required',
