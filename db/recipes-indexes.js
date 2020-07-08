@@ -1,1 +1,1 @@
-db.recipes.createIndex({slug: 1})
+db.recipes.createIndex({slug: 1}, {unique: true})
