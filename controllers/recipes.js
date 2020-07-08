@@ -19,12 +19,16 @@ function getRecipesFromDb(filter) {
 }
 
 async function insertRecipeToDb(recipes) {
-  const db = getDb().db();
-  const insertOneWriteOpResultObject = await db
-    .collection("recipes")
-    .insertOne(recipes);
-  const insertedResult = insertOneWriteOpResultObject.ops[0];
-  return insertedResult;
+  try {
+    const db = getDb().db();
+    const insertOneWriteOpResultObject = await db
+      .collection("recipes")
+      .insertOne(recipes);
+    const insertedResult = insertOneWriteOpResultObject.ops[0];
+    return insertedResult;
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 async function updateRecipeFromDb(recipeId, recipeEditedValues) {
@@ -97,7 +101,7 @@ async function getRecipes(req, res) {
 
 exports.getRecipes = getRecipes;
 
-exports.createRecipe = (req, res) => {
+exports.createRecipe = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
@@ -143,7 +147,7 @@ exports.createRecipe = (req, res) => {
         data: recipeStored
       });
     } catch (error) {
-      console.log("error", error);
+      next(error);
     }
   })();
 };
