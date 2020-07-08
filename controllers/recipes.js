@@ -27,7 +27,14 @@ async function insertRecipeToDb(recipes) {
     const insertedResult = insertOneWriteOpResultObject.ops[0];
     return insertedResult;
   } catch (error) {
-    throw new Error(error);
+    if (error.code === 11000) {
+      Object.keys(error.keyValue).forEach(key => {
+        error.customErrorMessage = `${key} ${
+          error.keyValue[key]
+        } Already exist, please select another one.`;
+      });
+    }
+    throw error;
   }
 }
 

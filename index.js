@@ -69,8 +69,10 @@ app.use((req, res) => {
 // eslint-disable-next-line no-unused-vars
 app.use((error, req, res, next) => {
   // eslint-disable-next-line no-console
-  console.log("error catch all", error);
   const httpStatusError = error.statusCode || 500;
+  console.log("error catch all", error);
+  console.log("error.statusCode", error.statusCode);
+  console.log("error.customErrorMessage", error.customErrorMessage);
   res.status(httpStatusError).json({
     ...error
   });
