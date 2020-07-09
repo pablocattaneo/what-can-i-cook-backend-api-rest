@@ -40,7 +40,7 @@ app.use(
   "/images/recipes",
   express.static(path.join(__dirname, "images/recipes"))
 );
-app.use(multer({ storage: fileStorage, fileFilter }).single("mainImage"));
+app.use(multer({ storage: fileStorage, fileFilter }).single("mainImg"));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
