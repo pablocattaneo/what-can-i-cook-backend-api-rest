@@ -28,6 +28,7 @@ router.post(
   recipesController.createRecipe
 );
 router.get("/recipe/:recipeId", recipesController.getRecipeById);
+router.get("/recipe-by-slug/:slug", recipesController.getRecipeBySlug);
 router.delete("/recipe/:recipeId", recipesController.deleteRecipe);
 router.put(
   "/admin/recipes/editing/:recipeId",

@@ -95,6 +95,13 @@ exports.getRecipeById = async (req, res) => {
   }
 };
 
+exports.getRecipeBySlug = async (req, res) => {
+  const { slug } = req.params;
+  const db = getDb().db();
+  const recipe = await db.collection("recipes").findOne({ slug });
+  res.json(recipe);
+};
+
 async function getRecipes(req, res) {
   try {
     const response = await getRecipesFromDb(req.query);
