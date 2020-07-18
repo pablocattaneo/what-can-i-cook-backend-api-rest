@@ -78,6 +78,9 @@ app.use((error, req, res, next) => {
   });
 });
 
-mongoConnect("mongodb://127.0.0.1:27017/what-can-i-cook", () => {
-  app.listen(5000);
-});
+mongoConnect(
+  "mongodb+srv://admin:eCArdozwlqyCv3F6@cluster0-7imhl.mongodb.net/what-can-i-cook?retryWrites=true&w=majority",
+  () => {
+    app.listen(5000);
+  }
+);
