@@ -3,19 +3,12 @@ const { ObjectId } = require("mongodb");
 const { getDb } = require("../util/database");
 const { deleteFile } = require("../util/file");
 
-function getRecipesFromDb(filter) {
+async function getRecipesFromDb(filter) {
   const db = getDb().db();
-  return db
-    .collection("recipes")
-    .find(filter)
-    .toArray()
-    .then(response => {
-      return response;
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-console
-      console.log("error", error);
-    });
+  const recipeCollection = await db.collection("recipes");
+  const filterData = await recipeCollection.find(filter);
+  const cursor = await filterData.toArray();
+  return cursor;
 }
 
 async function insertRecipeToDb(recipes) {
