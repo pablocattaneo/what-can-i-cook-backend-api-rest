@@ -3,12 +3,41 @@ const { ObjectId } = require("mongodb");
 const { getDb } = require("../util/database");
 const { deleteFile } = require("../util/file");
 
-async function getRecipesFromDb(filter) {
+async function getRecipesFromDb() {
   const db = getDb().db();
   const recipeCollection = await db.collection("recipes");
-  const filterData = await recipeCollection.find(filter);
+  const filterData = await recipeCollection.find();
   const recipes = await filterData.limit(3).toArray();
   return recipes;
+}
+
+async function searchRecipe(term) {
+  // const { search } = req.params;
+  console.log("searchRecipe term", term);
+  const db = getDb().db();
+  return new Promise((resolve, reject) => {
+    db.collection("recipes").aggregate(
+      [
+        {
+          $search: {
+            text: {
+              query: term,
+              path: "title"
+            }
+          }
+        }
+      ],
+      async (cmdErr, result, next) => {
+        try {
+          resolve(await result.toArray());
+        } catch (error) {
+          reject(error);
+          next(cmdErr);
+        }
+        return result.toArray();
+      }
+    );
+  });
 }
 
 async function insertRecipeToDb(recipes) {
@@ -97,7 +126,15 @@ exports.getRecipeBySlug = async (req, res) => {
 
 async function getRecipes(req, res) {
   try {
-    const response = await getRecipesFromDb(req.query);
+    console.log("req.query.term", req.query.term);
+    let response;
+    if (req.query.term) {
+      console.log("129", req.query.term);
+      response = await searchRecipe(req.query.term);
+      console.log("response", response);
+    } else {
+      response = await getRecipesFromDb();
+    }
     return res.status(200).json(response);
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -207,28 +244,4 @@ exports.updatePost = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-exports.searchRecipe = (req, res) => {
-  // const { search } = req.params;
-  console.log("searchRecipe");
-  const db = getDb().db();
-  db.collection("recipes").aggregate(
-    [
-      {
-        $search: {
-          text: {
-            query: "arroz",
-            path: "title"
-          }
-        }
-      }
-    ],
-    async (cmdErr, result) => {
-      const results = await result.toArray();
-      console.log("result", results);
-      console.log("mdErr", cmdErr);
-      res.json(results);
-    }
-  );
 };
