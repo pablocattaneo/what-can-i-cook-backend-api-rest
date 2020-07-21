@@ -53,5 +53,6 @@ router.put(
   recipesController.updatePost
 );
 router.get("/recipes/", recipesController.getRecipes);
+router.get("/recipess/", recipesController.searchRecipe);
 
 module.exports = router;

@@ -215,3 +215,27 @@ exports.updatePost = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.searchRecipe = (req, res) => {
+  // const { search } = req.params;
+  console.log("searchRecipe");
+  const db = getDb().db();
+  db.collection("recipes").aggregate(
+    [
+      {
+        $search: {
+          text: {
+            query: "arroz",
+            path: "title"
+          }
+        }
+      }
+    ],
+    async (cmdErr, result) => {
+      const results = await result.toArray();
+      console.log("result", results);
+      console.log("mdErr", cmdErr);
+      res.json(results);
+    }
+  );
+};
