@@ -127,7 +127,6 @@ exports.createRecipe = (req, res, next) => {
     return string.split(regex);
   }
   const { body } = req;
-  console.log("req.file", req.file);
   const imageUrl = req.file ? req.file.path : null;
   const moreInfo = JSON.parse(body.moreInfo);
   const recipe = {
@@ -178,7 +177,6 @@ exports.updatePost = async (req, res, next) => {
   function stringToArray(string, regex = /[\n\r]/g) {
     return string.split(regex);
   }
-  console.log("req.file", req.file);
   const { body } = req;
   const imageUrl = req.file ? req.file.path : null;
   const moreInfo = JSON.parse(body.moreInfo);
