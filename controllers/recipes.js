@@ -12,8 +12,6 @@ async function getRecipesFromDb() {
 }
 
 async function searchRecipe(term) {
-  // const { search } = req.params;
-  console.log("searchRecipe term", term);
   const db = getDb().db();
   return new Promise((resolve, reject) => {
     db.collection("recipes").aggregate(
@@ -126,12 +124,9 @@ exports.getRecipeBySlug = async (req, res) => {
 
 async function getRecipes(req, res) {
   try {
-    console.log("req.query.term", req.query.term);
     let response;
     if (req.query.term) {
-      console.log("129", req.query.term);
       response = await searchRecipe(req.query.term);
-      console.log("response", response);
     } else {
       response = await getRecipesFromDb();
     }
