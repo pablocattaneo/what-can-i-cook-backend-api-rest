@@ -23,7 +23,23 @@ router.post(
     body("directions")
       .trim()
       .not()
+      .isEmpty(),
+    body("slug")
+      .trim()
+      .not()
       .isEmpty()
+      .custom(value => {
+        const urlReservedCharacters = "!#$%&'()*+,/:;=?@[]";
+        for (let i = 0; i < urlReservedCharacters.length; i += 1) {
+          if (value.includes(urlReservedCharacters[i])) {
+            return false;
+          }
+        }
+        return true;
+      })
+      .withMessage(
+        "The content of this field must not contains this characters ! # $ % & '() * + , / : ; = ? @ []"
+      )
   ],
   recipesController.createRecipe
 );

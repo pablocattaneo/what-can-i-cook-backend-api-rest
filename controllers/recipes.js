@@ -141,6 +141,8 @@ async function getRecipes(req, res) {
 exports.getRecipes = getRecipes;
 
 exports.createRecipe = (req, res, next) => {
+  console.log("req", req.body);
+  console.log("myarray", ["saras", "saras"]);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
