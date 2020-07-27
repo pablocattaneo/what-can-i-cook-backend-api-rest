@@ -7,7 +7,7 @@ async function getRecipesFromDb() {
   const db = getDb().db();
   const recipeCollection = await db.collection("recipes");
   const filterData = await recipeCollection.find();
-  const recipes = await filterData.limit(3).toArray();
+  const recipes = await filterData.limit(10).toArray();
   return recipes;
 }
 
