@@ -3,11 +3,14 @@ const { ObjectId } = require("mongodb");
 const { getDb } = require("../util/database");
 const { deleteFile } = require("../util/file");
 
-async function getRecipesFromDb() {
+async function getRecipesFromDb(pagination = 0) {
   const db = getDb().db();
   const recipeCollection = await db.collection("recipes");
   const filterData = await recipeCollection.find();
-  const recipes = await filterData.limit(10).toArray();
+  const recipes = await filterData
+    .limit(10)
+    .skip(pagination)
+    .toArray();
   return recipes;
 }
 
@@ -125,10 +128,11 @@ exports.getRecipeBySlug = async (req, res) => {
 async function getRecipes(req, res) {
   try {
     let response;
+    const pagination = req.query.pagination ? Number(req.query.pagination) : 0;
     if (req.query.term) {
       response = await searchRecipe(req.query.term);
     } else {
-      response = await getRecipesFromDb();
+      response = await getRecipesFromDb(pagination);
     }
     return res.status(200).json(response);
   } catch (error) {
@@ -141,8 +145,6 @@ async function getRecipes(req, res) {
 exports.getRecipes = getRecipes;
 
 exports.createRecipe = (req, res, next) => {
-  console.log("req", req.body);
-  console.log("myarray", ["saras", "saras"]);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
