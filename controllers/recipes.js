@@ -6,8 +6,8 @@ const { deleteFile } = require("../util/file");
 async function getRecipesFromDb(pagination = 0) {
   const db = getDb().db();
   const recipeCollection = await db.collection("recipes");
-  const filterData = await recipeCollection.find();
-  const recipes = await filterData
+  const recipes = await recipeCollection
+    .find()
     .limit(10)
     .skip(pagination)
     .toArray();
