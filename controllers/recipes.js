@@ -6,12 +6,13 @@ const { deleteFile } = require("../util/file");
 async function getRecipesFromDb(pagination = 0) {
   const db = getDb().db();
   const recipeCollection = await db.collection("recipes");
+  const totalRecipes = await recipeCollection.find().count();
   const recipes = await recipeCollection
     .find()
     .limit(10)
     .skip(pagination)
     .toArray();
-  return recipes;
+  return { totalRecipes, recipes };
 }
 
 async function searchRecipe(term) {
@@ -30,7 +31,9 @@ async function searchRecipe(term) {
       ],
       async (cmdErr, result, next) => {
         try {
-          resolve(await result.toArray());
+          resolve({
+            recipes: await result.toArray()
+          });
         } catch (error) {
           reject(error);
           next(cmdErr);
