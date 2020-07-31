@@ -8,7 +8,7 @@ async function getRecipesFromDb(pagination = 0) {
   const recipeCollection = await db.collection("recipes");
   const totalRecipes = await recipeCollection.find().count();
   const recipes = await recipeCollection
-    .find({}, { projection: { title: 1, description: 1, mainImg: 1 } })
+    .find({}, { projection: { title: 1, description: 1, mainImg: 1, slug: 1 } })
     .limit(10)
     .skip(pagination)
     .toArray();
@@ -26,6 +26,14 @@ async function searchRecipe(term) {
               query: term,
               path: "title"
             }
+          }
+        },
+        {
+          $project: {
+            title: 1,
+            description: 1,
+            mainImg: 1,
+            slug: 1
           }
         }
       ],
