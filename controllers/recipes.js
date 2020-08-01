@@ -3,12 +3,17 @@ const { ObjectId } = require("mongodb");
 const { getDb } = require("../util/database");
 const { deleteFile } = require("../util/file");
 
-async function getRecipesFromDb(query = {}, pagination = 0) {
+async function getRecipesFromDb(query = [{}], pagination = 0) {
   const db = getDb().db();
   const recipeCollection = await db.collection("recipes");
-  const findQuery = await recipeCollection.find(query, {
-    projection: { title: 1, description: 1, mainImg: 1, slug: 1 }
-  });
+  const findQuery = await recipeCollection.find(
+    {
+      $or: query
+    },
+    {
+      projection: { title: 1, description: 1, mainImg: 1, slug: 1 }
+    }
+  );
   const totalRecipes = await findQuery.count();
   const recipes = await findQuery
     .limit(10)
@@ -141,11 +146,12 @@ exports.getRecipeBySlug = async (req, res) => {
 async function getRecipes(req, res) {
   try {
     let response;
+    const findQuery = req.query.filters ? JSON.parse(req.query.filters) : [{}];
     const pagination = req.query.pagination ? Number(req.query.pagination) : 0;
     if (req.query.term) {
       response = await searchRecipe(req.query.term);
     } else {
-      response = await getRecipesFromDb({}, pagination);
+      response = await getRecipesFromDb(findQuery, pagination);
     }
     return res.status(200).json(response);
   } catch (error) {
