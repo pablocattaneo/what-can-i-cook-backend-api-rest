@@ -3,12 +3,13 @@ const { ObjectId } = require("mongodb");
 const { getDb } = require("../util/database");
 const { deleteFile } = require("../util/file");
 
-async function getRecipesFromDb(query = [{}], pagination = 0) {
+async function getRecipesFromDb(query = [{}], calories, pagination = 0) {
   const db = getDb().db();
   const recipeCollection = await db.collection("recipes");
   const findQuery = await recipeCollection.find(
     {
-      $or: query
+      $or: query,
+      $and: calories ? [{ "more_info.calories": { $lte: +calories } }] : [{}]
     },
     {
       projection: { title: 1, description: 1, mainImg: 1, slug: 1 }
@@ -146,12 +147,13 @@ exports.getRecipeBySlug = async (req, res) => {
 async function getRecipes(req, res) {
   try {
     let response;
-    const findQuery = req.query.filters ? JSON.parse(req.query.filters) : [{}];
+    const query = req.query.filters ? JSON.parse(req.query.filters) : [{}];
+    const calories = req.query.calories || null;
     const pagination = req.query.pagination ? Number(req.query.pagination) : 0;
     if (req.query.term) {
       response = await searchRecipe(req.query.term);
     } else {
-      response = await getRecipesFromDb(findQuery, pagination);
+      response = await getRecipesFromDb(query, calories, pagination);
     }
     return res.status(200).json(response);
   } catch (error) {
