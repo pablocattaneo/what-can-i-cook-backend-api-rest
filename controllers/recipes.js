@@ -3,7 +3,7 @@ const { ObjectId } = require("mongodb");
 const { getDb } = require("../util/database");
 const { deleteFile } = require("../util/file");
 
-async function getRecipesFromDb(query = [{}], calories, pagination = 0) {
+async function getRecipesFromDb(query = [{}], calories = [{}], pagination = 0) {
   const db = getDb().db();
   const recipeCollection = await db.collection("recipes");
   const findQuery = await recipeCollection.find(
@@ -12,7 +12,7 @@ async function getRecipesFromDb(query = [{}], calories, pagination = 0) {
       $and: calories ? [{ "more_info.calories": { $lte: +calories } }] : [{}]
     },
     {
-      projection: { title: 1, description: 1, mainImg: 1, slug: 1 }
+      projection: { title: 1, description: 1, mainImg: 1, slug: 1, author: 1 }
     }
   );
   const totalRecipes = await findQuery.count();
