@@ -185,6 +185,7 @@ exports.createRecipe = (req, res, next) => {
     description: body.description,
     ingredients: stringToArray(body.ingredients),
     directions: stringToArray(body.directions),
+    category: body.category,
     language: body.language,
     mainImg: imageUrl,
     more_info: {
@@ -235,6 +236,7 @@ exports.updatePost = async (req, res, next) => {
     description: body.description,
     ingredients: stringToArray(body.ingredients),
     directions: stringToArray(body.directions),
+    category: body.category,
     language: body.language,
     mainImg: imageUrl || req.body.mainImg,
     more_info: {

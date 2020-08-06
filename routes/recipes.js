@@ -16,6 +16,10 @@ router.post(
       .trim()
       .not()
       .isEmpty(),
+    body("category")
+      .trim()
+      .not()
+      .isEmpty(),
     body("language")
       .trim()
       .not()

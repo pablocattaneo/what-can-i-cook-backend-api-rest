@@ -3,7 +3,7 @@ db.runCommand({
   validator: {
     $jsonSchema: {
       bsonType: 'object',
-      required: ['author','title', 'ingredients', 'language', 'directions', 'slug'],
+      required: ['author','title', 'ingredients', 'language', 'directions', 'slug', 'category'],
       properties: {
         author: {
           bsonType: 'objectId',
@@ -35,6 +35,11 @@ db.runCommand({
         slug: {
           bsonType: 'string',
           description: 'Must be a string'
+        },
+        category: {
+          bsonType: 'string',
+          enum: ["Appetizers & Snacks", "Breakfast & Brunch", "Desserts", "Dinner", "Drinks"],
+          description: 'Must be an string and accept only "Appetizers & Snacks" or "Breakfast & Brunch" or "Desserts" or "Dinner" or "Drinks" as a value '
         },
         description: {
           bsonType: 'string',
