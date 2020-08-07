@@ -38,8 +38,8 @@ db.runCommand({
         },
         category: {
           bsonType: 'string',
-          enum: ["Appetizers & Snacks", "Breakfast & Brunch", "Desserts", "Dinner", "Drinks"],
-          description: 'Must be an string and accept only "Appetizers & Snacks" or "Breakfast & Brunch" or "Desserts" or "Dinner" or "Drinks" as a value '
+          enum: ["Appetizers & Snacks", "Breakfast & Brunch", "Desserts", ,"Dinner", "Drinks", "Lunch"],
+          description: 'Must be an string and accept only "Appetizers & Snacks" or "Breakfast & Brunch" or "Desserts" or "Dinner" or "Drinks" or "Lunch" as a value '
         },
         description: {
           bsonType: 'string',
