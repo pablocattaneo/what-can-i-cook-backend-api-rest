@@ -157,7 +157,8 @@ async function getRecipes(req, res) {
     }
     if (category) {
       and.push({ category });
-    } else {
+    }
+    if (and.length === 0) {
       and.push({});
     }
     if (req.query.term) {
