@@ -151,15 +151,15 @@ async function getRecipes(req, res) {
     const query = req.query.filters ? JSON.parse(req.query.filters) : [{}];
     const category = req.query.category || null;
     const calories = req.query.calories || null;
+    const pagination = req.query.pagination ? Number(req.query.pagination) : 0;
     if (calories) {
-      and.push({ "more_info.calories": { $lte: +calories } });
+      and.push({ "more_info.calories": { $lte: Number(calories) } });
     }
     if (category) {
       and.push({ category });
     } else {
       and.push({});
     }
-    const pagination = req.query.pagination ? Number(req.query.pagination) : 0;
     if (req.query.term) {
       response = await searchRecipe(req.query.term);
     } else {
