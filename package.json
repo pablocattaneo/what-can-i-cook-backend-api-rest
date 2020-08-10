@@ -2,7 +2,7 @@
   "name": "what-can-i-cook",
   "version": "1.0.0",
   "description": "What can I cook",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "mocha",
     "start": "nodemon index.js",
@@ -29,6 +29,8 @@
     "multer": "^1.4.2"
   },
   "devDependencies": {
+    "@types/express": "^4.17.7",
+    "@types/node": "^14.0.27",
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.2.0",
