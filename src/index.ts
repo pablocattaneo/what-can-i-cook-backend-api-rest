@@ -1,29 +1,26 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const path = require("path");
+import express, { Request, Response, NextFunction } from "express";
+import bodyParser from "body-parser";
+import path from "path";
 
-const multer = require("multer");
-const home = require("./routes/home");
-const user = require("./routes/user");
-const adminRoutes = require("./routes/admin");
-const adminshop = require("./routes/shop");
-const adminsProducts = require("./routes/products");
-const frontRecipes = require("./routes/recipes");
-const auth = require("./routes/auth");
-const { mongoConnect } = require("./util/database");
+import multer from "multer";
+
+import user from "./routes/user";
+import {router as frontRecipes} from "./routes/recipes";
+import {router as auth } from "./routes/auth";
+import { mongoConnect } from "./util/database"
 
 const app = express();
 
 const fileStorage = multer.diskStorage({
-  destination: (req: any, file: any, callback: (arg0: null, arg1: string) => void) => {
+  destination: (req: any, file: any, callback: any) => {
     callback(null, "images/recipes");
   },
-  filename: (req: any, file: { originalname: any; }, callback: (arg0: null, arg1: string) => void) => {
+  filename: (req: any, file: { originalname: any; }, callback: any) => {
     callback(null, `${new Date().toISOString()}-${file.originalname}`);
   }
 });
 
-const fileFilter = (req: any, file: { mimetype: string; }, callback: (arg0: null, arg1: boolean) => void) => {
+const fileFilter = (req: any, file: { mimetype: string; }, callback: any) => {
   if (
     file.mimetype === "image/png" ||
     file.mimetype === "image/jpg" ||
@@ -42,7 +39,7 @@ app.use(
 );
 app.use(multer({ storage: fileStorage, fileFilter }).single("mainImg"));
 
-app.use((req: any, res: { setHeader: (arg0: string, arg1: string) => void; }, next: () => void) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -52,27 +49,20 @@ app.use((req: any, res: { setHeader: (arg0: string, arg1: string) => void; }, ne
   next();
 });
 
-app.use(adminRoutes);
-app.use(adminshop);
-app.use(adminsProducts);
 app.use(frontRecipes);
 app.use(auth);
-app.use(home);
 app.use(user);
 
-app.use((req: any, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { error: string; }): void; new(): any; }; }; }) => {
+app.use((req: Request, res: Response) => {
   res.status(404).json({
     error: "404!! Page not found"
   });
 });
 
 // eslint-disable-next-line no-unused-vars
-app.use((error: { statusCode: number; customErrorMessage: any; }, req: any, res: { status: (arg0: any) => { (): any; new(): any; json: { (arg0: any): void; new(): any; }; }; }, next: any) => {
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   // eslint-disable-next-line no-console
   const httpStatusError = error.statusCode || 500;
-  console.log("error catch all", error);
-  console.log("error.statusCode", error.statusCode);
-  console.log("error.customErrorMessage", error.customErrorMessage);
   res.status(httpStatusError).json({
     ...error
   });
