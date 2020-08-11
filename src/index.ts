@@ -35,7 +35,7 @@ const fileFilter = (req: any, file: { mimetype: string; }, callback: any) => {
 app.use(bodyParser.json());
 app.use(
   "/images/recipes",
-  express.static(path.join(__dirname, "images/recipes"))
+  express.static(path.join(__dirname, "../images/recipes"))
 );
 app.use(multer({ storage: fileStorage, fileFilter }).single("mainImg"));
 

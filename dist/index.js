@@ -31,7 +31,7 @@ const fileFilter = (req, file, callback) => {
     }
 };
 app.use(body_parser_1.default.json());
-app.use("/images/recipes", express_1.default.static(path_1.default.join(__dirname, "images/recipes")));
+app.use("/images/recipes", express_1.default.static(path_1.default.join(__dirname, "../images/recipes")));
 app.use(multer_1.default({ storage: fileStorage, fileFilter }).single("mainImg"));
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
