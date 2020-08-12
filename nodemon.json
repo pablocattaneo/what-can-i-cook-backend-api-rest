@@ -1,6 +1,6 @@
 {
   "events": {
-      "restart": "npm run lint",
-      "start": "npm run lint"
+      "restart": "npx eslint . --ext .ts",
+      "start": "npx eslint . --ext .ts"
     }
  }

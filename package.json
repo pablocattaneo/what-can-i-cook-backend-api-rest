@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "start": "nodemon dist/index.js",
-    "lint": "eslint . --ext .ts",
-    "lintfix": "eslint . --ext .ts --fix"
+    "start": "nodemon dist/index.js"
   },
   "repository": {
     "type": "git",
