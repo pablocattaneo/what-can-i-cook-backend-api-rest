@@ -3,8 +3,8 @@ import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const { validationResult } = require('express-validator');
-const { getDb } = require('../util/database');
+import { validationResult } from 'express-validator'
+import { getDb } from '../util/database'
 
 exports.signup = (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -75,7 +75,6 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
         // eslint-disable-next-line no-underscore-dangle
         userId: loadedUser._id.toString(),
       },
-      // eslint-disable-next-line prettier/prettier
       "P2bQM9L2r4b$}3<X)_cU_+F7-:}'Y-]e(gPH::?^*YW,x5<3*Zrfy=zZ^.K!aJ,6!S&UJ;fTCmnz}.>\,^mtK8d{jw8a88z`yARW@b78K8+TxNg6{Eg?wPXZ3%:fjZY3;V[dX#Y7t\K9]sXXXud+mFjqtM#[q\(UL#.c-L@M99wfJ2RsaSj\Q7x/Gwnmnk+c6-Jb.n-&:J'jzS:fGDa*e6aw;W(u$!R6~cbed}tWw7.[g]yTzx@56Hhz}2{L`6%;",
       { expiresIn: '1hr' },
     );
