@@ -1,26 +1,26 @@
 /* eslint-disable promise/no-return-wrap */
-import express from "express";
+import express from 'express';
 // const { body } = require("express-validator");
-import { body } from "express-validator"
-import { getDb } from "../util/database"
+import { body } from 'express-validator';
+import { getDb } from '../util/database';
 
 const router = express.Router();
 
-const authController = require("../controllers/auth");
+const authController = require('../controllers/auth');
 
 router.put(
-  "/signup",
+  '/signup',
   [
-    body("email")
+    body('email')
       .isEmail()
-      .withMessage("Please enter a valid email.")
+      .withMessage('Please enter a valid email.')
       .normalizeEmail()
-      .custom(emailValue => {
+      .custom((emailValue) => {
         const db = getDb().db();
         // eslint-disable-next-line promise/catch-or-return
         return (
           db
-            .collection("users")
+            .collection('users')
             .findOne({ email: emailValue })
             // eslint-disable-next-line consistent-return
             .then((userDoc: { email: any; }) => {
@@ -30,59 +30,59 @@ router.put(
                   new Error(
                     `Email addres ${
                       userDoc.email
-                    } already exist in our registry.`
-                  )
+                    } already exist in our registry.`,
+                  ),
                 );
               }
             })
         );
       }),
-    body("password")
+    body('password')
       .trim()
       .not()
       .isEmpty(),
-    body("confirmPassword")
+    body('confirmPassword')
       .custom((value, { req }) => {
         if (value !== req.body.password) {
-          throw new Error("Password and confirm password fields have to match");
+          throw new Error('Password and confirm password fields have to match');
         }
         return true;
       })
       .trim()
       .not()
       .isEmpty(),
-    body("userName")
+    body('userName')
       .trim()
       .not()
       .isEmpty(),
-    body("name")
+    body('name')
       .trim()
       .not()
       .isEmpty(),
-    body("lastName")
+    body('lastName')
       .trim()
       .not()
-      .isEmpty()
+      .isEmpty(),
   ],
-  authController.signup
+  authController.signup,
 );
 
 router.post(
-  "/login",
+  '/login',
   [
-    body("email")
+    body('email')
       .trim()
       .not()
       .isEmpty()
       .isEmail()
-      .withMessage("Please enter a valid email.")
+      .withMessage('Please enter a valid email.')
       .normalizeEmail(),
-    body("password")
+    body('password')
       .trim()
       .not()
-      .isEmpty()
+      .isEmpty(),
   ],
-  authController.login
+  authController.login,
 );
 
-export {router};
+export { router };

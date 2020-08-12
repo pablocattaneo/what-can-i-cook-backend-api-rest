@@ -1,9 +1,9 @@
-import fs from "fs";
+import fs from 'fs';
 
 export function deleteFile(filePath: fs.PathLike) {
-  fs.unlink(filePath, error => {
+  fs.unlink(filePath, (error) => {
     if (error) {
-      throw (error)
+      throw (error);
     }
   });
-};
+}

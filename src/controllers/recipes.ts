@@ -1,25 +1,27 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 
 // const { validationResult } = require("express-validator");
-import {validationResult} from 'express-validator'
+import { validationResult } from 'express-validator';
 // const { ObjectId } = require("mongodb");
-import {ObjectId} from "mongodb"
+import { ObjectId } from 'mongodb';
 // const { getDb } = require("../util/database");
-import {getDb} from "../util/database"
+import { getDb } from '../util/database';
 // const { deleteFile } = require("../util/file");
-import {deleteFile} from "../util/file"
+import { deleteFile } from '../util/file';
 
 async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
   const db = getDb().db();
-  const recipeCollection = await db.collection("recipes");
+  const recipeCollection = await db.collection('recipes');
   const findQuery = await recipeCollection.find(
     {
       $or: query,
-      $and: and
+      $and: and,
     },
     {
-      projection: { title: 1, description: 1, mainImg: 1, slug: 1, author: 1 }
-    }
+      projection: {
+        title: 1, description: 1, mainImg: 1, slug: 1, author: 1,
+      },
+    },
   );
   const totalRecipes = await findQuery.count();
   const recipes = await findQuery
@@ -32,36 +34,36 @@ async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
 async function searchRecipe(term: any) {
   const db = getDb().db();
   return new Promise((resolve, reject) => {
-    db.collection("recipes").aggregate(
+    db.collection('recipes').aggregate(
       [
         {
           $search: {
             text: {
               query: term,
-              path: "title"
-            }
-          }
+              path: 'title',
+            },
+          },
         },
         {
           $project: {
             title: 1,
             description: 1,
             mainImg: 1,
-            slug: 1
-          }
-        }
+            slug: 1,
+          },
+        },
       ],
       async (cmdErr: any, result: { toArray: () => any; }, next: (arg0: any) => void) => {
         try {
           resolve({
-            recipes: await result.toArray()
+            recipes: await result.toArray(),
           });
         } catch (error) {
           reject(error);
           next(cmdErr);
         }
         return result.toArray();
-      }
+      },
     );
   });
 }
@@ -70,13 +72,13 @@ async function insertRecipeToDb(recipes: { author: any; title: any; description:
   try {
     const db = getDb().db();
     const insertOneWriteOpResultObject = await db
-      .collection("recipes")
+      .collection('recipes')
       .insertOne(recipes);
     const insertedResult = insertOneWriteOpResultObject.ops[0];
     return insertedResult;
   } catch (error) {
     if (error.code === 11000) {
-      Object.keys(error.keyValue).forEach(key => {
+      Object.keys(error.keyValue).forEach((key) => {
         error.customErrorMessage = `${key} ${
           error.keyValue[key]
         } Already exist, please select another one.`;
@@ -90,12 +92,12 @@ async function updateRecipeFromDb(recipeId: any, recipeEditedValues: { title: an
   try {
     const db = getDb().db();
     const returnedValueAfterUpdateDocument = await db
-      .collection("recipes")
+      .collection('recipes')
       .updateOne(
         { _id: new ObjectId(recipeId) },
         {
-          $set: recipeEditedValues
-        }
+          $set: recipeEditedValues,
+        },
       );
     return returnedValueAfterUpdateDocument;
   } catch (error) {
@@ -109,15 +111,14 @@ export async function deleteRecipe(req: Request, res: Response) {
     let response;
     const db = getDb().db();
     const recipe = await db
-      .collection("recipes")
+      .collection('recipes')
       .findOne({ _id: new ObjectId(recipeId) });
-    response =
-      recipe === null
-        ? { message: "Document does't exist" }
-        : { message: "Document exist" };
+    response = recipe === null
+      ? { message: "Document does't exist" }
+      : { message: 'Document exist' };
     if (recipe) {
       const recipeDeleted = await db
-        .collection("recipes")
+        .collection('recipes')
         .deleteOne({ _id: new ObjectId(recipeId) });
       if (recipe.mainImg) {
         deleteFile(recipe.mainImg);
@@ -128,27 +129,27 @@ export async function deleteRecipe(req: Request, res: Response) {
   } catch (error) {
     throw new Error(error);
   }
-};
+}
 
-export async function getRecipeById (req: Request, res: Response) {
+export async function getRecipeById(req: Request, res: Response) {
   const { recipeId } = req.params;
   try {
     const db = getDb().db();
     const recipe = await db
-      .collection("recipes")
+      .collection('recipes')
       .findOne({ _id: new ObjectId(recipeId) });
     res.json(recipe);
   } catch (error) {
     throw new Error(error);
   }
-};
+}
 
-export async function getRecipeBySlug (req: Request, res: Response) {
+export async function getRecipeBySlug(req: Request, res: Response) {
   const { slug } = req.params;
   const db = getDb().db();
-  const recipe = await db.collection("recipes").findOne({ slug });
+  const recipe = await db.collection('recipes').findOne({ slug });
   res.json(recipe);
-};
+}
 
 export async function getRecipes(req: any, res: Response) {
   try {
@@ -159,7 +160,7 @@ export async function getRecipes(req: any, res: Response) {
     const calories = req.query.calories || null;
     const pagination = req.query.pagination ? Number(req.query.pagination) : 0;
     if (calories) {
-      and.push({ "more_info.calories": { $lte: Number(calories) } });
+      and.push({ 'more_info.calories': { $lte: Number(calories) } });
     }
     if (category) {
       and.push({ category });
@@ -175,17 +176,17 @@ export async function getRecipes(req: any, res: Response) {
     return res.status(200).json(response);
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.log("error", error);
+    console.log('error', error);
     return false;
   }
 }
 
-export function createRecipe (req: Request, res: Response, next: NextFunction) {
+export function createRecipe(req: Request, res: Response, next: NextFunction) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
-      message: "Validation failed",
-      errors: errors.array()
+      message: 'Validation failed',
+      errors: errors.array(),
     });
   }
   function stringToArray(string: string, regex = /[\n\r]/g) {
@@ -215,29 +216,29 @@ export function createRecipe (req: Request, res: Response, next: NextFunction) {
         : null,
       calories: parseInt(moreInfo.calories, 10)
         ? parseInt(moreInfo.calories, 10)
-        : null
+        : null,
     },
-    slug: body.slug
+    slug: body.slug,
   };
   (async () => {
     try {
       const recipeStored = await insertRecipeToDb(recipe);
       res.status(201).json({
-        message: "Recipe was created successfully!",
-        data: recipeStored
+        message: 'Recipe was created successfully!',
+        data: recipeStored,
       });
     } catch (error) {
       next(error);
     }
   })();
-};
+}
 
-export async function updatePost (req: Request, res: Response, next: NextFunction) {
+export async function updatePost(req: Request, res: Response, next: NextFunction) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
-      message: "Validation failed",
-      errors: errors.array()
+      message: 'Validation failed',
+      errors: errors.array(),
     });
   }
   function stringToArray(string: string, regex = /[\n\r]/g) {
@@ -266,19 +267,19 @@ export async function updatePost (req: Request, res: Response, next: NextFunctio
         : null,
       calories: parseInt(moreInfo.calories, 10)
         ? parseInt(moreInfo.calories, 10)
-        : null
+        : null,
     },
-    slug: body.slug
+    slug: body.slug,
   };
   try {
     const result = await updateRecipeFromDb(
       req.params.recipeId,
-      recipeEditedValues
+      recipeEditedValues,
     );
     res.json({
-      result
+      result,
     });
   } catch (error) {
     next(error);
   }
-};
+}

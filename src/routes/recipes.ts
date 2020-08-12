@@ -1,34 +1,37 @@
-import express from "express";
-const { body } = require("express-validator");
+import express from 'express';
+
+import {
+  getRecipeById, deleteRecipe, getRecipeBySlug, getRecipes, createRecipe, updatePost,
+} from '../controllers/recipes';
+
+const { body } = require('express-validator');
 
 const router = express.Router();
 
-import { getRecipeById, deleteRecipe, getRecipeBySlug, getRecipes, createRecipe, updatePost } from "../controllers/recipes";
-
 router.post(
-  "/recipes/create-recipe",
+  '/recipes/create-recipe',
   [
-    body("title")
+    body('title')
       .trim()
       .not()
       .isEmpty(),
-    body("ingredients")
+    body('ingredients')
       .trim()
       .not()
       .isEmpty(),
-    body("category")
+    body('category')
       .trim()
       .not()
       .isEmpty(),
-    body("language")
+    body('language')
       .trim()
       .not()
       .isEmpty(),
-    body("directions")
+    body('directions')
       .trim()
       .not()
       .isEmpty(),
-    body("slug")
+    body('slug')
       .trim()
       .not()
       .isEmpty()
@@ -42,34 +45,34 @@ router.post(
         return true;
       })
       .withMessage(
-        "The content of this field must not contains this characters ! # $ % & '() * + , / : ; = ? @ []"
-      )
+        "The content of this field must not contains this characters ! # $ % & '() * + , / : ; = ? @ []",
+      ),
   ],
-  createRecipe
+  createRecipe,
 );
-router.get("/recipe/:recipeId", getRecipeById);
-router.get("/recipe-by-slug/:slug", getRecipeBySlug);
-router.delete("/recipe/:recipeId", deleteRecipe);
+router.get('/recipe/:recipeId', getRecipeById);
+router.get('/recipe-by-slug/:slug', getRecipeBySlug);
+router.delete('/recipe/:recipeId', deleteRecipe);
 router.put(
-  "/admin/recipes/editing/:recipeId",
+  '/admin/recipes/editing/:recipeId',
   [
-    body("title")
+    body('title')
       .trim()
       .not()
       .isEmpty(),
-    body("ingredients")
+    body('ingredients')
       .trim()
       .not()
       .isEmpty(),
-    body("language")
+    body('language')
       .trim()
       .not()
       .isEmpty(),
-    body("directions")
+    body('directions')
       .trim()
       .not()
       .isEmpty(),
-    body("slug")
+    body('slug')
       .trim()
       .not()
       .isEmpty()
@@ -83,11 +86,11 @@ router.put(
         return true;
       })
       .withMessage(
-        "The content of this field must not contains this characters ! # $ % & '() * + , / : ; = ? @ []"
-      )
+        "The content of this field must not contains this characters ! # $ % & '() * + , / : ; = ? @ []",
+      ),
   ],
-  updatePost
+  updatePost,
 );
-router.get("/recipes/", getRecipes);
+router.get('/recipes/', getRecipes);
 
-export {router};
+export { router };

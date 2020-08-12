@@ -6,8 +6,8 @@
   "scripts": {
     "test": "mocha",
     "start": "nodemon dist/index.js",
-    "lint": "eslint ./",
-    "lintfix": "eslint ./ --fix"
+    "lint": "eslint . --ext .ts",
+    "lintfix": "eslint . --ext .ts --fix"
   },
   "repository": {
     "type": "git",
