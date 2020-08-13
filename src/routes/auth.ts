@@ -1,4 +1,3 @@
-/* eslint-disable promise/no-return-wrap */
 import express from 'express';
 // const { body } = require("express-validator");
 import { body } from 'express-validator';
@@ -6,7 +5,7 @@ import { getDb } from '../util/database';
 
 const router = express.Router();
 
-const authController = require('../controllers/auth');
+import { signup, login } from '../controllers/auth';
 
 router.put(
   '/signup',
@@ -17,14 +16,12 @@ router.put(
       .normalizeEmail()
       .custom((emailValue) => {
         const db = getDb().db();
-        // eslint-disable-next-line promise/catch-or-return
         return (
           db
             .collection('users')
             .findOne({ email: emailValue })
             // eslint-disable-next-line consistent-return
             .then((userDoc: { email: any; }) => {
-              // eslint-disable-next-line promise/always-return
               if (userDoc) {
                 return Promise.reject(
                   new Error(
@@ -64,7 +61,7 @@ router.put(
       .not()
       .isEmpty(),
   ],
-  authController.signup,
+  signup,
 );
 
 router.post(
@@ -82,7 +79,7 @@ router.post(
       .not()
       .isEmpty(),
   ],
-  authController.login,
+  login,
 );
 
 export { router };

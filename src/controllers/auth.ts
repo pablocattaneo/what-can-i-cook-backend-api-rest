@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator'
 import { getDb } from '../util/database'
 
-exports.signup = (req: Request, res: Response) => {
+export function signup (req: Request, res: Response) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
@@ -47,7 +47,7 @@ exports.signup = (req: Request, res: Response) => {
     });
 };
 
-exports.login = async (req: Request, res: Response, next: NextFunction) => {
+export async function login (req: Request, res: Response, next: NextFunction) {
   try {
     const { email } = req.body;
     const { password } = req.body;
