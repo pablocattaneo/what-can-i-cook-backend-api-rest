@@ -4,7 +4,7 @@ import {
   getRecipeById, deleteRecipe, getRecipeBySlug, getRecipes, createRecipe, updatePost,
 } from '../controllers/recipes';
 
-const { body } = require('express-validator');
+import { body } from 'express-validator';
 
 const router = express.Router();
 

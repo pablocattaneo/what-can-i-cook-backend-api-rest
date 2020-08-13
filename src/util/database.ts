@@ -1,4 +1,3 @@
-// const mongoClient = require("mongodb").MongoClient;
 import mongodb from 'mongodb';
 
 const mongoClient = mongodb.MongoClient;
@@ -15,7 +14,6 @@ export function mongoConnect(uri: any, callback: any) {
       // eslint-disable-next-line no-console
       console.log('Connected successfully to on mongo server');
       db = mongoClientIntance;
-      // eslint-disable-next-line promise/no-callback-in-promise
       callback();
       return 'promise fulfilled';
     })
