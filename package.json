@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha",
     "start": "nodemon dist/index.js",
-    "lint": "eslint --ext .ts ./"
+    "lint": "eslint --ext .ts ."
   },
   "repository": {
     "type": "git",

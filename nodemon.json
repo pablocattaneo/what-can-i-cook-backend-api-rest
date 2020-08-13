@@ -1,6 +1,6 @@
 {
   "events": {
-      "restart": "eslint --ext .ts .",
-      "start": "eslint --ext .ts ."
+      "restart": "npm run lint",
+      "start": "npm run lint"
     }
  }
