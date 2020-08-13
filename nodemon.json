@@ -1,6 +1,6 @@
 {
   "events": {
-      "restart": "npx eslint . --ext .ts",
-      "start": "npx eslint . --ext .ts"
+      "restart": "eslint --ext .ts .",
+      "start": "eslint --ext .ts ."
     }
  }
