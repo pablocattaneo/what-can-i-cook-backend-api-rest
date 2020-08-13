@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 
-const { ObjectId } = require('mongodb');
-const { getDb } = require('../util/database');
+import { ObjectId } from 'mongodb';
+import { getDb } from '../util/database';
 
 export async function getUserById(req: Request | any, res: Response | any) {
   const { userId } = req.params;
