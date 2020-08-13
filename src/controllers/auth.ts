@@ -45,7 +45,7 @@ export function signup (req: Request, res: Response) {
       // eslint-disable-next-line no-console
       console.log('error', error);
     });
-};
+}
 
 export async function login (req: Request, res: Response, next: NextFunction) {
   try {
@@ -84,4 +84,4 @@ export async function login (req: Request, res: Response, next: NextFunction) {
     console.log('error 85', error);
     next(error);
   }
-};
+}
