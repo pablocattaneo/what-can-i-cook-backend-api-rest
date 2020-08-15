@@ -1,12 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 
-// const { validationResult } = require("express-validator");
 import { validationResult } from 'express-validator';
-// const { ObjectId } = require("mongodb");
 import { ObjectId } from 'mongodb';
-// const { getDb } = require("../util/database");
 import { getDb } from '../util/database';
-// const { deleteFile } = require("../util/file");
 import { deleteFile } from '../util/file';
 
 async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
