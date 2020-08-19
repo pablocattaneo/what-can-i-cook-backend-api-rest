@@ -93,4 +93,4 @@ router.put(
 );
 router.get('/recipes/', getRecipes);
 
-export { router };
+export default router;

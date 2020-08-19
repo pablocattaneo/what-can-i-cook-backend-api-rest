@@ -5,8 +5,8 @@ import path from 'path';
 import multer from 'multer';
 
 import user from './routes/user';
-import { router as frontRecipes } from './routes/recipes';
-import { router as auth } from './routes/auth';
+import frontRecipes from './routes/recipes';
+import  auth from './routes/auth';
 import { mongoConnect } from './util/database';
 
 const app = express();
