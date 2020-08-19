@@ -1,5 +1,4 @@
 import express from 'express';
-// const { body } = require("express-validator");
 import { body } from 'express-validator';
 import { getDb } from '../util/database';
 
