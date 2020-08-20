@@ -3,7 +3,7 @@ import { Response, NextFunction } from 'express';
 /* eslint-disable no-useless-escape */
 import  * as jwt from'jsonwebtoken';
 
-export function IsAuth(req: any, res: Response, next: NextFunction) {
+export function IsAuth(req: any, res: Response, next: NextFunction): void {
   const authHeader = req.get('Authorization');
   if (!authHeader) {
     throw new Error('Not authenticated.');
