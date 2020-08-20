@@ -20,7 +20,7 @@ router.put(
             .collection('users')
             .findOne({ email: emailValue })
             // eslint-disable-next-line consistent-return
-            .then((userDoc: { email: any; }) => {
+            .then((userDoc: { email: string; }) => {
               if (userDoc) {
                 return Promise.reject(
                   new Error(

@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator'
 import { getDb } from '../util/database'
 
-export function signup (req: Request, res: Response) {
+export function signup (req: Request, res: Response): void {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
