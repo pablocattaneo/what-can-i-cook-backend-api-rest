@@ -13,25 +13,18 @@ router.put(
       .isEmail()
       .withMessage('Please enter a valid email.')
       .normalizeEmail()
-      .custom((emailValue) => {
+      .custom(async (emailValue) => {
         const db = getDb().db();
-        return (
-          db
-            .collection('users')
-            .findOne({ email: emailValue })
-            // eslint-disable-next-line consistent-return
-            .then((userDoc: { email: string; }) => {
-              if (userDoc) {
-                return Promise.reject(
-                  new Error(
-                    `Email addres ${
-                      userDoc.email
-                    } already exist in our registry.`,
-                  ),
-                );
-              }
-            })
-        );
+        const userDoc: { email: string; } | null = await db.collection('users').findOne({ email: emailValue })
+        if (userDoc !== null) {
+          return Promise.reject(
+            new Error(
+              `Email addres ${
+                userDoc.email
+              } already exist in our registry.`,
+            ),
+          );
+        }
       }),
     body('password')
       .trim()
