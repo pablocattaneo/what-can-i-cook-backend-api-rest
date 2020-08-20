@@ -68,9 +68,9 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-mongoConnect(
-  'mongodb+srv://admin:eCArdozwlqyCv3F6@cluster0-7imhl.mongodb.net/what-can-i-cook?retryWrites=true&w=majority',
-  () => {
-    app.listen(5000);
-  },
-);
+(async () => {
+  await mongoConnect(
+    'mongodb+srv://admin:eCArdozwlqyCv3F6@cluster0-7imhl.mongodb.net/what-can-i-cook?retryWrites=true&w=majority'
+  );
+  app.listen(5000);
+})()

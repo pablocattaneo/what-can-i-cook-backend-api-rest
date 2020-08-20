@@ -1,32 +1,29 @@
-import mongodb from 'mongodb';
+import mongodb from "mongodb";
 
 const mongoClient = mongodb.MongoClient;
 
-let db: any;
+let db: mongodb.MongoClient;
 
-export function mongoConnect(uri: any, callback: any) {
-  mongoClient
-    .connect(
+export async function mongoConnect(uri: string): Promise<string> {
+  try {
+    const mongoClientIntance = await mongoClient.connect(
       uri,
-      { useNewUrlParser: true, useUnifiedTopology: true },
-    )
-    .then((mongoClientIntance) => {
-      // eslint-disable-next-line no-console
-      console.log('Connected successfully to on mongo server');
-      db = mongoClientIntance;
-      callback();
-      return 'promise fulfilled';
-    })
-    .catch((error) => {
-      // eslint-disable-next-line no-console
-      console.log('error', error);
-      throw error;
-    });
+      { useNewUrlParser: true, useUnifiedTopology: true }
+    );
+    // eslint-disable-next-line no-console
+    console.log("Connected successfully to on mongo server");
+    db = mongoClientIntance;
+    return "promise fulfilled";
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log("error", error);
+    throw error;
+  }
 }
 
-export function getDb() {
+export function getDb(): mongodb.MongoClient {
   if (db) {
     return db;
   }
-  throw new Error('No database found');
+  throw new Error("No database found");
 }
