@@ -47,7 +47,7 @@ export function signup (req: Request, res: Response): void {
     });
 }
 
-export async function login (req: Request, res: Response, next: NextFunction) {
+export async function login (req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const { email } = req.body;
     const { password } = req.body;
