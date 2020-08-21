@@ -129,7 +129,7 @@ export async function deleteRecipe(req: Request, res: Response): Promise<void> {
   }
 }
 
-export async function getRecipeById(req: Request, res: Response) {
+export async function getRecipeById(req: Request, res: Response):Promise<void> {
   const { recipeId } = req.params;
   try {
     const db = getDb().db();
@@ -142,7 +142,7 @@ export async function getRecipeById(req: Request, res: Response) {
   }
 }
 
-export async function getRecipeBySlug(req: Request, res: Response) {
+export async function getRecipeBySlug(req: Request, res: Response):Promise<void> {
   const { slug } = req.params;
   const db = getDb().db();
   const recipe = await db.collection('recipes').findOne({ slug });
