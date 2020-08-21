@@ -103,7 +103,7 @@ async function updateRecipeFromDb(recipeId: any, recipeEditedValues: wcRecipes) 
   }
 }
 
-export async function deleteRecipe(req: Request, res: Response) {
+export async function deleteRecipe(req: Request, res: Response): Promise<void> {
   const { recipeId } = req.params;
   try {
     let response;
