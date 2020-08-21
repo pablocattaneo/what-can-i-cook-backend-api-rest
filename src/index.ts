@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 
-import multer from 'multer';
+import multer, { FileFilterCallback } from 'multer';
 
 import user from './routes/user';
 import frontRecipes from './routes/recipes';
@@ -12,19 +12,20 @@ import { mongoConnect } from './util/database';
 const app = express();
 
 const fileStorage = multer.diskStorage({
-  destination: (req: any, file: any, callback: any) => {
+  destination: (req, file, callback) => {
     callback(null, 'images/recipes');
   },
-  filename: (req: any, file: { originalname: any; }, callback: any) => {
+  filename: (req, file, callback) => {
     callback(null, `${new Date().toISOString()}-${file.originalname}`);
   },
 });
 
-const fileFilter = (req: any, file: { mimetype: string; }, callback: any) => {
+const fileFilter = (req: Request, file: Express.Multer.File, callback: FileFilterCallback) => {
   if (
     file.mimetype === 'image/png'
     || file.mimetype === 'image/jpg'
     || file.mimetype === 'image/jpeg'
+    || file.mimetype === 'image/webp'
   ) {
     callback(null, true);
   } else {
