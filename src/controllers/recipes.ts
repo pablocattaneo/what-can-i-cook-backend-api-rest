@@ -5,6 +5,8 @@ import { ObjectId } from 'mongodb';
 import { getDb } from '../util/database';
 import { deleteFile } from '../util/file';
 
+import { wcRecipes } from '../custom-types'
+
 async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
   const db = getDb().db();
   const recipeCollection = await db.collection('recipes');
@@ -27,7 +29,7 @@ async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
   return { totalRecipes, recipes };
 }
 
-async function searchRecipe(term: any) {
+async function searchRecipe(term: string) {
   const db = getDb().db();
   return new Promise((resolve, reject) => {
     db.collection('recipes').aggregate(
@@ -64,7 +66,7 @@ async function searchRecipe(term: any) {
   });
 }
 
-async function insertRecipeToDb(recipes: { author: any; title: any; description: any; ingredients: any; directions: any; category: any; language: any; mainImg: any; more_info: { serving: number | null; cookTime: number | null; readyIn: number | null; calories: number | null; }; slug: any; }) {
+async function insertRecipeToDb(recipes: wcRecipes) {
   try {
     const db = getDb().db();
     const insertOneWriteOpResultObject = await db
@@ -191,7 +193,7 @@ export function createRecipe(req: Request, res: Response, next: NextFunction) {
   const { body } = req;
   const imageUrl = req.file ? req.file.path : null;
   const moreInfo = JSON.parse(body.moreInfo);
-  const recipe = {
+  const recipe: wcRecipes = {
     author: new ObjectId(body.author),
     title: body.title,
     description: body.description,
