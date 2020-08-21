@@ -231,7 +231,7 @@ export function createRecipe(req: Request, res: Response, next: NextFunction) {
   })();
 }
 
-export async function updatePost(req: Request, res: Response, next: NextFunction) {
+export async function updatePost(req: Request, res: Response, next: NextFunction): Promise<void> {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
@@ -245,7 +245,8 @@ export async function updatePost(req: Request, res: Response, next: NextFunction
   const { body } = req;
   const imageUrl = req.file ? req.file.path : null;
   const moreInfo = JSON.parse(body.moreInfo);
-  const recipeEditedValues = {
+  const recipeEditedValues: wcRecipes = {
+    author: new ObjectId(body.author),
     title: body.title,
     description: body.description,
     ingredients: stringToArray(body.ingredients),
