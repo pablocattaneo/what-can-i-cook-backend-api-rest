@@ -60,9 +60,8 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
-  // eslint-disable-next-line no-console
   const httpStatusError = error.statusCode || 500;
   res.status(httpStatusError).json({
     ...error,
