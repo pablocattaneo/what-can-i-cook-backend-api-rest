@@ -9,6 +9,8 @@ import frontRecipes from './routes/recipes';
 import  auth from './routes/auth';
 import { mongoConnect } from './util/database';
 
+import { wcError } from './custom-types'
+
 const app = express();
 
 const fileStorage = multer.diskStorage({
@@ -61,7 +63,7 @@ app.use((req: Request, res: Response) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+app.use((error: wcError, req: Request, res: Response, next: NextFunction) => {
   const httpStatusError = error.statusCode || 500;
   res.status(httpStatusError).json({
     ...error,
