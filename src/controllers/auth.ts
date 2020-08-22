@@ -6,6 +6,8 @@ import jwt from 'jsonwebtoken';
 import { validationResult } from 'express-validator'
 import { getDb } from '../util/database'
 
+import { wcError } from '../custom-types'
+
 export function signup (req: Request, res: Response): void {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -54,10 +56,10 @@ export async function login (req: Request, res: Response, next: NextFunction): P
     const db = getDb().db();
     const user = await db.collection('users').findOne({ email });
     if (user === null) {
-      const customErrorMessage = "Email doesn't exist.";
-      const error: any = new Error(customErrorMessage);
-      error.statusCode = 400;
-      error.customErrorMessage = customErrorMessage;
+      const error:wcError = {
+        statusCode: 400,
+        customErrorMessage: "Email doesn't exist."
+      }
       throw error;
     }
     const loadedUser = user;
@@ -66,8 +68,10 @@ export async function login (req: Request, res: Response, next: NextFunction): P
       user.password,
     );
     if (!userPasswordAndStorePasswordAreIqual) {
-      const error: any = new Error('Password is wrong');
-      error.statusCode = 400;
+      const error:wcError = {
+        statusCode: 400,
+        customErrorMessage: "Password is wrong"
+      }
       throw error;
     }
     const token = jwt.sign(
@@ -81,7 +85,6 @@ export async function login (req: Request, res: Response, next: NextFunction): P
     // eslint-disable-next-line no-underscore-dangle
     res.status(200).json({ token, userId: loadedUser._id.toString() });
   } catch (error) {
-    console.log('error 85', error);
     next(error);
   }
 }
