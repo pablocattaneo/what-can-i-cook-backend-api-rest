@@ -86,7 +86,7 @@ async function insertRecipeToDb(recipes: wcRecipes) {
   }
 }
 
-async function updateRecipeFromDb(recipeId: any, recipeEditedValues: wcRecipes) {
+async function updateRecipeFromDb(recipeId: string, recipeEditedValues: wcRecipes) {
   try {
     const db = getDb().db();
     const returnedValueAfterUpdateDocument = await db
