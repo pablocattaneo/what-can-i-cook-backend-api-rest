@@ -1,15 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
 
-import { validationResult } from 'express-validator';
-import { ObjectId } from 'mongodb';
-import { getDb } from '../util/database';
-import { deleteFile } from '../util/file';
+import { validationResult } from "express-validator";
+import { ObjectId } from "mongodb";
+import { getDb } from "../util/database";
+import { deleteFile } from "../util/file";
 
-import { wcRecipes } from '../custom-types'
+import { wcRecipes } from "../custom-types";
 
 async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
   const db = getDb().db();
-  const recipeCollection = await db.collection('recipes');
+  const recipeCollection = await db.collection("recipes");
   const findQuery = await recipeCollection.find(
     {
       $or: query,
@@ -17,9 +17,13 @@ async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
     },
     {
       projection: {
-        title: 1, description: 1, mainImg: 1, slug: 1, author: 1,
+        title: 1,
+        description: 1,
+        mainImg: 1,
+        slug: 1,
+        author: 1,
       },
-    },
+    }
   );
   const totalRecipes = await findQuery.count();
   const recipes = await findQuery
@@ -32,13 +36,13 @@ async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
 async function searchRecipe(term: string) {
   const db = getDb().db();
   return new Promise((resolve, reject) => {
-    db.collection('recipes').aggregate(
+    db.collection("recipes").aggregate(
       [
         {
           $search: {
             text: {
               query: term,
-              path: 'title',
+              path: "title",
             },
           },
         },
@@ -51,7 +55,11 @@ async function searchRecipe(term: string) {
           },
         },
       ],
-      async (cmdErr: any, result: { toArray: () => any; }, next: (arg0: any) => void) => {
+      async (
+        cmdErr: any,
+        result: { toArray: () => any },
+        next: (arg0: any) => void
+      ) => {
         try {
           resolve({
             recipes: await result.toArray(),
@@ -61,7 +69,7 @@ async function searchRecipe(term: string) {
           next(cmdErr);
         }
         return result.toArray();
-      },
+      }
     );
   });
 }
@@ -70,7 +78,7 @@ async function insertRecipeToDb(recipes: wcRecipes) {
   try {
     const db = getDb().db();
     const insertOneWriteOpResultObject = await db
-      .collection('recipes')
+      .collection("recipes")
       .insertOne(recipes);
     const insertedResult = insertOneWriteOpResultObject.ops[0];
     return insertedResult;
@@ -86,16 +94,19 @@ async function insertRecipeToDb(recipes: wcRecipes) {
   }
 }
 
-async function updateRecipeFromDb(recipeId: string, recipeEditedValues: wcRecipes) {
+async function updateRecipeFromDb(
+  recipeId: string,
+  recipeEditedValues: wcRecipes
+) {
   try {
     const db = getDb().db();
     const returnedValueAfterUpdateDocument = await db
-      .collection('recipes')
+      .collection("recipes")
       .updateOne(
         { _id: new ObjectId(recipeId) },
         {
           $set: recipeEditedValues,
-        },
+        }
       );
     return returnedValueAfterUpdateDocument;
   } catch (error) {
@@ -109,14 +120,15 @@ export async function deleteRecipe(req: Request, res: Response): Promise<void> {
     let response;
     const db = getDb().db();
     const recipe = await db
-      .collection('recipes')
+      .collection("recipes")
       .findOne({ _id: new ObjectId(recipeId) });
-    response = recipe === null
-      ? { message: "Document does't exist" }
-      : { message: 'Document exist' };
+    response =
+      recipe === null
+        ? { message: "Document does't exist" }
+        : { message: "Document exist" };
     if (recipe) {
       const recipeDeleted = await db
-        .collection('recipes')
+        .collection("recipes")
         .deleteOne({ _id: new ObjectId(recipeId) });
       if (recipe.mainImg) {
         deleteFile(recipe.mainImg);
@@ -129,12 +141,15 @@ export async function deleteRecipe(req: Request, res: Response): Promise<void> {
   }
 }
 
-export async function getRecipeById(req: Request, res: Response):Promise<void> {
+export async function getRecipeById(
+  req: Request,
+  res: Response
+): Promise<void> {
   const { recipeId } = req.params;
   try {
     const db = getDb().db();
     const recipe = await db
-      .collection('recipes')
+      .collection("recipes")
       .findOne({ _id: new ObjectId(recipeId) });
     res.json(recipe);
   } catch (error) {
@@ -142,23 +157,28 @@ export async function getRecipeById(req: Request, res: Response):Promise<void> {
   }
 }
 
-export async function getRecipeBySlug(req: Request, res: Response):Promise<void> {
+export async function getRecipeBySlug(
+  req: Request,
+  res: Response
+): Promise<void> {
   const { slug } = req.params;
   const db = getDb().db();
-  const recipe = await db.collection('recipes').findOne({ slug });
+  const recipe = await db.collection("recipes").findOne({ slug });
   res.json(recipe);
 }
 
-export async function getRecipes(req: any, res: Response) {
+export async function getRecipes(req: Request, res: Response): Promise<string | boolean> {
+  const filters = (req.query as { filters: string;}).filters;
+  const term = (req.query as { term: string;}).term;
   try {
     let response;
     const and = [];
-    const query = req.query.filters ? JSON.parse(req.query.filters) : [{}];
+    const query = filters ? JSON.parse(filters) : [{}];
     const category = req.query.category || null;
     const calories = req.query.calories || null;
     const pagination = req.query.pagination ? Number(req.query.pagination) : 0;
     if (calories) {
-      and.push({ 'more_info.calories': { $lte: Number(calories) } });
+      and.push({ "more_info.calories": { $lte: Number(calories) } });
     }
     if (category) {
       and.push({ category });
@@ -166,24 +186,28 @@ export async function getRecipes(req: any, res: Response) {
     if (and.length === 0) {
       and.push({});
     }
-    if (req.query.term) {
-      response = await searchRecipe(req.query.term);
+    if (term) {
+      response = await searchRecipe(term);
     } else {
       response = await getRecipesFromDb(query, and, pagination);
     }
-    return res.status(200).json(response);
+    return res.status(200).json(response) as unknown as string;
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.log('error', error);
+    console.log("error", error);
     return false;
   }
 }
 
-export function createRecipe(req: Request, res: Response, next: NextFunction):void {
+export function createRecipe(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
-      message: 'Validation failed',
+      message: "Validation failed",
       errors: errors.array(),
     });
   }
@@ -222,7 +246,7 @@ export function createRecipe(req: Request, res: Response, next: NextFunction):vo
     try {
       const recipeStored = await insertRecipeToDb(recipe);
       res.status(201).json({
-        message: 'Recipe was created successfully!',
+        message: "Recipe was created successfully!",
         data: recipeStored,
       });
     } catch (error) {
@@ -231,11 +255,15 @@ export function createRecipe(req: Request, res: Response, next: NextFunction):vo
   })();
 }
 
-export async function updatePost(req: Request, res: Response, next: NextFunction): Promise<void> {
+export async function updatePost(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
-      message: 'Validation failed',
+      message: "Validation failed",
       errors: errors.array(),
     });
   }
@@ -273,7 +301,7 @@ export async function updatePost(req: Request, res: Response, next: NextFunction
   try {
     const result = await updateRecipeFromDb(
       req.params.recipeId,
-      recipeEditedValues,
+      recipeEditedValues
     );
     res.json({
       result,
