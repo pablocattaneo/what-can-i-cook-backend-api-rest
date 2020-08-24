@@ -33,47 +33,6 @@ async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
   return { totalRecipes, recipes };
 }
 
-async function searchRecipe(term: string) {
-  const db = getDb().db();
-  return new Promise((resolve, reject) => {
-    db.collection("recipes").aggregate(
-      [
-        {
-          $search: {
-            text: {
-              query: term,
-              path: "title",
-            },
-          },
-        },
-        {
-          $project: {
-            title: 1,
-            description: 1,
-            mainImg: 1,
-            slug: 1,
-          },
-        },
-      ],
-      async (
-        cmdErr: any,
-        result: { toArray: () => any },
-        next: (arg0: any) => void
-      ) => {
-        try {
-          resolve({
-            recipes: await result.toArray(),
-          });
-        } catch (error) {
-          reject(error);
-          next(cmdErr);
-        }
-        return result.toArray();
-      }
-    );
-  });
-}
-
 async function insertRecipeToDb(recipes: wcRecipes) {
   try {
     const db = getDb().db();
@@ -169,9 +128,7 @@ export async function getRecipeBySlug(
 
 export async function getRecipes(req: Request, res: Response): Promise<string | boolean> {
   const filters = (req.query as { filters: string;}).filters;
-  const term = (req.query as { term: string;}).term;
   try {
-    let response;
     const and = [];
     const query = filters ? JSON.parse(filters) : [{}];
     const category = req.query.category || null;
@@ -186,11 +143,7 @@ export async function getRecipes(req: Request, res: Response): Promise<string | 
     if (and.length === 0) {
       and.push({});
     }
-    if (term) {
-      response = await searchRecipe(term);
-    } else {
-      response = await getRecipesFromDb(query, and, pagination);
-    }
+    const response = await getRecipesFromDb(query, and, pagination);
     return res.status(200).json(response) as unknown as string;
   } catch (error) {
     // eslint-disable-next-line no-console
