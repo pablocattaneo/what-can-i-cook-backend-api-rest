@@ -1,38 +1,41 @@
-const express = require("express");
-const { body } = require("express-validator");
+import express from 'express';
+
+import {
+  getRecipeById, deleteRecipe, getRecipeBySlug, getRecipes, createRecipe, updatePost,
+} from '../controllers/recipes';
+
+import { body } from 'express-validator';
 
 const router = express.Router();
 
-const recipesController = require("../controllers/recipes");
-
 router.post(
-  "/recipes/create-recipe",
+  '/recipes/create-recipe',
   [
-    body("title")
+    body('title')
       .trim()
       .not()
       .isEmpty(),
-    body("ingredients")
+    body('ingredients')
       .trim()
       .not()
       .isEmpty(),
-    body("category")
+    body('category')
       .trim()
       .not()
       .isEmpty(),
-    body("language")
+    body('language')
       .trim()
       .not()
       .isEmpty(),
-    body("directions")
+    body('directions')
       .trim()
       .not()
       .isEmpty(),
-    body("slug")
+    body('slug')
       .trim()
       .not()
       .isEmpty()
-      .custom(value => {
+      .custom((value: string | string[]) => {
         const urlReservedCharacters = "!#$%&'()*+,/:;=?@[]";
         for (let i = 0; i < urlReservedCharacters.length; i += 1) {
           if (value.includes(urlReservedCharacters[i])) {
@@ -42,38 +45,38 @@ router.post(
         return true;
       })
       .withMessage(
-        "The content of this field must not contains this characters ! # $ % & '() * + , / : ; = ? @ []"
-      )
+        "The content of this field must not contains this characters ! # $ % & '() * + , / : ; = ? @ []",
+      ),
   ],
-  recipesController.createRecipe
+  createRecipe,
 );
-router.get("/recipe/:recipeId", recipesController.getRecipeById);
-router.get("/recipe-by-slug/:slug", recipesController.getRecipeBySlug);
-router.delete("/recipe/:recipeId", recipesController.deleteRecipe);
+router.get('/recipe/:recipeId', getRecipeById);
+router.get('/recipe-by-slug/:slug', getRecipeBySlug);
+router.delete('/recipe/:recipeId', deleteRecipe);
 router.put(
-  "/admin/recipes/editing/:recipeId",
+  '/admin/recipes/editing/:recipeId',
   [
-    body("title")
+    body('title')
       .trim()
       .not()
       .isEmpty(),
-    body("ingredients")
+    body('ingredients')
       .trim()
       .not()
       .isEmpty(),
-    body("language")
+    body('language')
       .trim()
       .not()
       .isEmpty(),
-    body("directions")
+    body('directions')
       .trim()
       .not()
       .isEmpty(),
-    body("slug")
+    body('slug')
       .trim()
       .not()
       .isEmpty()
-      .custom(value => {
+      .custom((value: string | string[]) => {
         const urlReservedCharacters = "!#$%&'()*+,/:;=?@[]";
         for (let i = 0; i < urlReservedCharacters.length; i += 1) {
           if (value.includes(urlReservedCharacters[i])) {
@@ -83,11 +86,11 @@ router.put(
         return true;
       })
       .withMessage(
-        "The content of this field must not contains this characters ! # $ % & '() * + , / : ; = ? @ []"
-      )
+        "The content of this field must not contains this characters ! # $ % & '() * + , / : ; = ? @ []",
+      ),
   ],
-  recipesController.updatePost
+  updatePost,
 );
-router.get("/recipes/", recipesController.getRecipes);
+router.get('/recipes/', getRecipes);
 
-module.exports = router;
+export default router;

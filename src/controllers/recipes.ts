@@ -1,7 +1,11 @@
-const { validationResult } = require("express-validator");
-const { ObjectId } = require("mongodb");
-const { getDb } = require("../util/database");
-const { deleteFile } = require("../util/file");
+import { Request, Response, NextFunction } from "express";
+
+import { validationResult } from "express-validator";
+import { ObjectId } from "mongodb";
+import { getDb } from "../util/database";
+import { deleteFile } from "../util/file";
+
+import { wcRecipes } from "../custom-types";
 
 async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
   const db = getDb().db();
@@ -9,10 +13,16 @@ async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
   const findQuery = await recipeCollection.find(
     {
       $or: query,
-      $and: and
+      $and: and,
     },
     {
-      projection: { title: 1, description: 1, mainImg: 1, slug: 1, author: 1 }
+      projection: {
+        title: 1,
+        description: 1,
+        mainImg: 1,
+        slug: 1,
+        author: 1,
+      },
     }
   );
   const totalRecipes = await findQuery.count();
@@ -23,44 +33,7 @@ async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
   return { totalRecipes, recipes };
 }
 
-async function searchRecipe(term) {
-  const db = getDb().db();
-  return new Promise((resolve, reject) => {
-    db.collection("recipes").aggregate(
-      [
-        {
-          $search: {
-            text: {
-              query: term,
-              path: "title"
-            }
-          }
-        },
-        {
-          $project: {
-            title: 1,
-            description: 1,
-            mainImg: 1,
-            slug: 1
-          }
-        }
-      ],
-      async (cmdErr, result, next) => {
-        try {
-          resolve({
-            recipes: await result.toArray()
-          });
-        } catch (error) {
-          reject(error);
-          next(cmdErr);
-        }
-        return result.toArray();
-      }
-    );
-  });
-}
-
-async function insertRecipeToDb(recipes) {
+async function insertRecipeToDb(recipes: wcRecipes) {
   try {
     const db = getDb().db();
     const insertOneWriteOpResultObject = await db
@@ -70,7 +43,7 @@ async function insertRecipeToDb(recipes) {
     return insertedResult;
   } catch (error) {
     if (error.code === 11000) {
-      Object.keys(error.keyValue).forEach(key => {
+      Object.keys(error.keyValue).forEach((key) => {
         error.customErrorMessage = `${key} ${
           error.keyValue[key]
         } Already exist, please select another one.`;
@@ -80,7 +53,10 @@ async function insertRecipeToDb(recipes) {
   }
 }
 
-async function updateRecipeFromDb(recipeId, recipeEditedValues) {
+async function updateRecipeFromDb(
+  recipeId: string,
+  recipeEditedValues: wcRecipes
+) {
   try {
     const db = getDb().db();
     const returnedValueAfterUpdateDocument = await db
@@ -88,7 +64,7 @@ async function updateRecipeFromDb(recipeId, recipeEditedValues) {
       .updateOne(
         { _id: new ObjectId(recipeId) },
         {
-          $set: recipeEditedValues
+          $set: recipeEditedValues,
         }
       );
     return returnedValueAfterUpdateDocument;
@@ -97,7 +73,7 @@ async function updateRecipeFromDb(recipeId, recipeEditedValues) {
   }
 }
 
-exports.deleteRecipe = async (req, res) => {
+export async function deleteRecipe(req: Request, res: Response): Promise<void> {
   const { recipeId } = req.params;
   try {
     let response;
@@ -122,9 +98,12 @@ exports.deleteRecipe = async (req, res) => {
   } catch (error) {
     throw new Error(error);
   }
-};
+}
 
-exports.getRecipeById = async (req, res) => {
+export async function getRecipeById(
+  req: Request,
+  res: Response
+): Promise<void> {
   const { recipeId } = req.params;
   try {
     const db = getDb().db();
@@ -135,20 +114,23 @@ exports.getRecipeById = async (req, res) => {
   } catch (error) {
     throw new Error(error);
   }
-};
+}
 
-exports.getRecipeBySlug = async (req, res) => {
+export async function getRecipeBySlug(
+  req: Request,
+  res: Response
+): Promise<void> {
   const { slug } = req.params;
   const db = getDb().db();
   const recipe = await db.collection("recipes").findOne({ slug });
   res.json(recipe);
-};
+}
 
-async function getRecipes(req, res) {
+export async function getRecipes(req: Request, res: Response): Promise<string | boolean> {
+  const filters = (req.query as { filters: string;}).filters;
   try {
-    let response;
     const and = [];
-    const query = req.query.filters ? JSON.parse(req.query.filters) : [{}];
+    const query = filters ? JSON.parse(filters) : [{}];
     const category = req.query.category || null;
     const calories = req.query.calories || null;
     const pagination = req.query.pagination ? Number(req.query.pagination) : 0;
@@ -161,12 +143,8 @@ async function getRecipes(req, res) {
     if (and.length === 0) {
       and.push({});
     }
-    if (req.query.term) {
-      response = await searchRecipe(req.query.term);
-    } else {
-      response = await getRecipesFromDb(query, and, pagination);
-    }
-    return res.status(200).json(response);
+    const response = await getRecipesFromDb(query, and, pagination);
+    return res.status(200).json(response) as unknown as string;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log("error", error);
@@ -174,23 +152,25 @@ async function getRecipes(req, res) {
   }
 }
 
-exports.getRecipes = getRecipes;
-
-exports.createRecipe = (req, res, next) => {
+export function createRecipe(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
       message: "Validation failed",
-      errors: errors.array()
+      errors: errors.array(),
     });
   }
-  function stringToArray(string, regex = /[\n\r]/g) {
+  function stringToArray(string: string, regex = /[\n\r]/g) {
     return string.split(regex);
   }
   const { body } = req;
   const imageUrl = req.file ? req.file.path : null;
   const moreInfo = JSON.parse(body.moreInfo);
-  const recipe = {
+  const recipe: wcRecipes = {
     author: new ObjectId(body.author),
     title: body.title,
     description: body.description,
@@ -211,38 +191,43 @@ exports.createRecipe = (req, res, next) => {
         : null,
       calories: parseInt(moreInfo.calories, 10)
         ? parseInt(moreInfo.calories, 10)
-        : null
+        : null,
     },
-    slug: body.slug
+    slug: body.slug,
   };
   (async () => {
     try {
       const recipeStored = await insertRecipeToDb(recipe);
       res.status(201).json({
         message: "Recipe was created successfully!",
-        data: recipeStored
+        data: recipeStored,
       });
     } catch (error) {
       next(error);
     }
   })();
-};
+}
 
-exports.updatePost = async (req, res, next) => {
+export async function updatePost(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).json({
       message: "Validation failed",
-      errors: errors.array()
+      errors: errors.array(),
     });
   }
-  function stringToArray(string, regex = /[\n\r]/g) {
+  function stringToArray(string: string, regex = /[\n\r]/g) {
     return string.split(regex);
   }
   const { body } = req;
   const imageUrl = req.file ? req.file.path : null;
   const moreInfo = JSON.parse(body.moreInfo);
-  const recipeEditedValues = {
+  const recipeEditedValues: wcRecipes = {
+    author: new ObjectId(body.author),
     title: body.title,
     description: body.description,
     ingredients: stringToArray(body.ingredients),
@@ -262,9 +247,9 @@ exports.updatePost = async (req, res, next) => {
         : null,
       calories: parseInt(moreInfo.calories, 10)
         ? parseInt(moreInfo.calories, 10)
-        : null
+        : null,
     },
-    slug: body.slug
+    slug: body.slug,
   };
   try {
     const result = await updateRecipeFromDb(
@@ -272,9 +257,9 @@ exports.updatePost = async (req, res, next) => {
       recipeEditedValues
     );
     res.json({
-      result
+      result,
     });
   } catch (error) {
     next(error);
   }
-};
+}
