@@ -9,8 +9,8 @@ import { wcRecipes } from "../custom-types";
 
 async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
   const db = getDb().db();
-  const recipeCollection = await db.collection("recipes");
-  const findQuery = await recipeCollection.find(
+  const recipeCollection = db.collection("recipes");
+  const findQuery = recipeCollection.find(
     {
       $or: query,
       $and: and,
@@ -134,6 +134,7 @@ export async function getRecipes(req: Request, res: Response): Promise<string | 
     const category = req.query.category || null;
     const calories = req.query.calories || null;
     const pagination = req.query.pagination ? Number(req.query.pagination) : 0;
+    const term = req.query.term || ''
     if (calories) {
       and.push({ "more_info.calories": { $lte: Number(calories) } });
     }
@@ -142,6 +143,11 @@ export async function getRecipes(req: Request, res: Response): Promise<string | 
     }
     if (and.length === 0) {
       and.push({});
+    }
+    if(term) {
+      and.push({
+        $text: {$search: term}
+      })
     }
     const response = await getRecipesFromDb(query, and, pagination);
     return res.status(200).json(response) as unknown as string;
