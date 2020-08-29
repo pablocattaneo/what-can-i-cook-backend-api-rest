@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 
+import helmet from 'helmet'
 import multer, { FileFilterCallback } from 'multer';
 
 import user from './routes/user';
@@ -35,6 +36,7 @@ const fileFilter = (req: Request, file: Express.Multer.File, callback: FileFilte
   }
 };
 
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(
   '/images/recipes',
