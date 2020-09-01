@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "What can I cook",
   "main": "index.js",
+  "engines": {
+    "node": "14.1.0"
+  },
   "scripts": {
     "test": "mocha",
     "start": "node dist/index.js",
