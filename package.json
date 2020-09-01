@@ -10,7 +10,9 @@
     "test": "mocha",
     "start": "node dist/index.js",
     "dev": "nodemon dist/index.js",
-    "lint": "eslint --ext .ts ."
+    "lint": "eslint --ext .ts .",
+    "build": "tsc",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
