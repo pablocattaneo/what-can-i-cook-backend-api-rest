@@ -22,15 +22,16 @@ async function getRecipesFromDb(query = [{}], and = [{}], pagination = 0) {
         mainImg: 1,
         slug: 1,
         author: 1,
-      },
+      }
     }
   );
   const totalRecipes = await findQuery.count();
-  const recipes = await findQuery
-    .limit(10)
-    .skip(pagination)
-    .toArray();
-  return { totalRecipes, recipes };
+  const cursorRecipes = findQuery
+  .limit(10)
+  .skip(pagination)
+  const hasNext = await cursorRecipes.hasNext();
+  const recipes = await cursorRecipes.toArray();
+  return { totalRecipes, recipes, hasNext };
 }
 
 async function insertRecipeToDb(recipes: wcRecipes) {
